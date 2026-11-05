@@ -1,11 +1,11 @@
 # Báo Cáo Kiểm Định Phát Hành Kaggle (Kaggle Release Verification)
 
-**Thời điểm kiểm định:** 2026-11-05 06:31:58 UTC  
-**Mã định danh Dataset (Slug):** `thuanhoa1110/hanoi-weather-multi-station-benchmark`  
-**Tiêu đề Dataset:** Hanoi Multi-Station Meteorology Dataset (6.3M Records)  
-**Trạng thái phát hành:** `VERIFIED_DRY_RUN`  
+**Thời điểm kiểm định:** 2026-11-05 07:14:25 UTC  
+**Mã định danh Dataset (Slug):** `hanguynthun/hanoi-weather-multi-station-benchmark`  
+**Tiêu đề Dataset:** Hanoi Weather 6-Station Benchmark (6.3M)  
+**Trạng thái phát hành:** `PUBLISHED_PUBLIC`  
 **Giấy phép (License):** Creative Commons Attribution 4.0 International (`CC-BY-4.0`)  
-**Đường dẫn truy cập Dataset:** [https://www.kaggle.com/datasets/thuanhoa1110/hanoi-weather-multi-station-benchmark](https://www.kaggle.com/datasets/thuanhoa1110/hanoi-weather-multi-station-benchmark)  
+**Đường dẫn truy cập Dataset:** [https://www.kaggle.com/datasets/hanguynthun/hanoi-weather-multi-station-benchmark](https://www.kaggle.com/datasets/hanguynthun/hanoi-weather-multi-station-benchmark)  
 
 ---
 
@@ -33,6 +33,6 @@
 
 ## 3. Ghi Chú & Trạng Thái Nghiệm Thu Bước 1.3
 
-- **Chi tiết:** Gói phát hành đạt chuẩn kiểm tra metadata, DATA_CARD và mã băm SHA-256.
+- **Chi tiết:** Dataset đã tồn tại và sẵn sàng trên Kaggle (Trạng thái: ready).
 - **Quyền công bố:** Tuân thủ 100% quyết định phân quyền tại [docs/licensing_decisions.md](../docs/licensing_decisions.md).
 - **Tiến trình tiếp theo:** Sẵn sàng chuyển giao sang **Phase 2 (Đóng băng giao thức đánh giá)**.

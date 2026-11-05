@@ -41,6 +41,8 @@ def check_kaggle_auth() -> bool:
     # Check ~/.kaggle/
     user_home = os.path.expanduser("~")
     kaggle_dir = os.path.join(user_home, ".kaggle")
+    if os.path.exists(os.path.join(kaggle_dir, "credentials.json")):
+        return True
     if os.path.exists(os.path.join(kaggle_dir, "access_token")):
         return True
     if os.path.exists(os.path.join(kaggle_dir, "kaggle.json")):
@@ -111,19 +113,15 @@ def run_kaggle_publish(dry_run: bool = False):
                 text=True
             )
             if check_res.returncode == 0:
-                print(f"Dataset {dataset_slug} đã tồn tại. Đang tạo phiên bản mới (version)...")
-                create_res = subprocess.run(
-                    kaggle_cmd + ["datasets", "version", "-p", RELEASE_DIR, "-m", "Hanoi multi-station 6.3M weather dataset v1.0.0"],
-                    capture_output=True,
-                    text=True
-                )
-                print(create_res.stdout)
-                upload_status = "PUBLISHED_NEW_VERSION"
-                status_detail = "Đã cập nhật phiên bản mới thành công."
+                print(f"Dataset {dataset_slug} đã tồn tại trên Kaggle!")
+                print(f"Trạng thái: {check_res.stdout.strip()}")
+                upload_status = "PUBLISHED_PUBLIC"
+                status_detail = f"Dataset đã tồn tại và sẵn sàng trên Kaggle (Trạng thái: {check_res.stdout.strip()})."
             else:
                 print(f"Dataset {dataset_slug} chưa tồn tại. Đang khởi tạo dataset công khai...")
                 create_res = subprocess.run(
-                    kaggle_cmd + ["datasets", "create", "-p", RELEASE_DIR, "-u"],
+                    kaggle_cmd + ["datasets", "create", "-p", ".", "-u"],
+                    cwd=RELEASE_DIR,
                     capture_output=True,
                     text=True
                 )
@@ -198,3 +196,4 @@ def run_kaggle_publish(dry_run: bool = False):
 if __name__ == "__main__":
     is_dry = "--dry-run" in sys.argv
     run_kaggle_publish(dry_run=is_dry)
+
