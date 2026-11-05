@@ -24,7 +24,8 @@ Dự án nghiên cứu và triển khai hệ thống học sâu dự báo nhiệ
 ```text
 ChuyenDe/
 ├── configs/                       # Cấu hình tham số mô hình, dữ liệu, huấn luyện
-│   └── default.yaml
+│   ├── default.yaml
+│   └── split.yaml                 # Đóng băng giao thức chia dữ liệu, lookback=72, horizon=12
 ├── data/
 │   ├── sample/                    # 6 file CSV mẫu (1.000 dòng/trạm) phục vụ test
 │   └── README.md                  # Hướng dẫn chi tiết về dữ liệu
@@ -32,12 +33,16 @@ ChuyenDe/
 │   ├── data_inventory.md          # Kiểm kê dữ liệu, mã băm SHA-256, số dòng, khoảng thời gian
 │   └── licensing_decisions.md     # Quyết định bản quyền, giấy phép dữ liệu & checkpoint
 ├── manifests/
-│   └── raw.json                   # Manifest bất biến dữ liệu thô 10 năm 6 trạm
+│   ├── raw.json                   # Manifest bất biến dữ liệu thô 10 năm 6 trạm
+│   └── split_manifest.json        # Manifest phân chia Chronological Split (Train/Val/Test)
 ├── release/
 │   └── public/                    # Gói phát hành công khai Kaggle (DATA_CARD, metadata, data)
 ├── reports/
+│   ├── baselines.csv              # Bảng chỉ số đối chuẩn MAE, RMSE, MedAE, Latency
+│   ├── baseline_comparison.png    # Biểu đồ so sánh trực quan chuỗi thực tế vs dự báo
 │   ├── data_quality.md            # Báo cáo kiểm định chất lượng & đồng bộ dữ liệu
-│   └── kaggle_verification.md     # Báo cáo kiểm định phát hành & đối chiếu mã băm Kaggle
+│   ├── kaggle_verification.md     # Báo cáo kiểm định phát hành & đối chiếu mã băm Kaggle
+│   └── predictions_baseline.csv   # Dữ liệu chuỗi dự báo chi tiết của các baseline
 ├── scripts/
 │   ├── inventory_check.py         # Script kiểm kê mã băm dữ liệu 6 trạm
 │   ├── publish_kaggle.py          # Script tự động đăng tải & đối chiếu dataset lên Kaggle
@@ -49,12 +54,15 @@ ChuyenDe/
 ├── src/
 │   └── weather/                   # Package mã nguồn chính
 │       ├── data/                  # Ingestion, validation, windowing, image encoding
-│       ├── models/                # Baseline & DINOv3 Forecaster
+│       ├── models/                # Baseline (Persistence, Ridge, LightGBM) & DINOv3 Forecaster
+│       ├── evaluate.py            # Pipeline đánh giá độc lập & kiểm định thủ công
 │       └── api/                   # FastAPI serving endpoints
 ├── tests/
 │   ├── test_smoke.py              # Bộ smoke test kiểm tra toàn vẹn Phase 0
-│   ├── test_validation.py         # Bộ kiểm thử chất lượng dữ liệu & chống lệch pha
-│   └── test_release.py            # Bộ kiểm thử tính toàn vẹn gói phát hành Kaggle
+│   ├── test_validation.py         # Bộ kiểm thử chất lượng dữ liệu & chống lệch pha (Phase 1)
+│   ├── test_release.py            # Bộ kiểm thử tính toàn vẹn gói phát hành Kaggle (Phase 1)
+│   ├── test_window.py             # Bộ kiểm thử cửa sổ trượt, không rò rỉ & scaler (Phase 2)
+│   └── test_baseline.py           # Bộ kiểm thử tái lập mô hình baseline & metrics (Phase 2)
 ├── .env.example                   # Mẫu khai báo biến môi trường (không chứa secret)
 ├── .gitignore                     # Chặn file nhạy cảm, data/raw, checkpoints
 ├── pyproject.toml                 # Đặc tả gói và metadata dự án
@@ -72,11 +80,21 @@ ChuyenDe/
 | :---: | :--- | :---: | :--- |
 | **Phase 0** | **Khởi tạo và cổng quyền sử dụng** | **HOÀN THÀNH** | • Cấu trúc repo & khóa dependencies (`pyproject.toml`, `requirements.lock`)<br>• Script Runner: `run.ps1` (setup, test, inventory)<br>• 6/6 Smoke tests đạt 100% (`tests/test_smoke.py`)<br>• Báo cáo kiểm kê dữ liệu 6 trạm: [docs/data_inventory.md](docs/data_inventory.md)<br>• Báo cáo bản quyền & checkpoint: [docs/licensing_decisions.md](docs/licensing_decisions.md)<br>• Commit Git: `addcd63` |
 | **Phase 1** | **Thu thập dữ liệu private và phát hành Kaggle** | **HOÀN THÀNH** | • Nạp dữ liệu 10 năm 6 trạm (6,312,384 dòng): `src/weather/data/ingest.py`<br>• Manifest bất biến: [manifests/raw.json](manifests/raw.json)<br>• Bộ kiểm tra chất lượng & chống lệch pha: `src/weather/data/validate.py`<br>• 16/16 Tests chất lượng & release đạt 100%: `tests/test_validation.py`, `tests/test_release.py`<br>• Bảng wide đồng bộ 67 cột (1,052,064 dòng): `release/public/weather_wide_synced.csv.gz` (SHA-256: `1a449407ab7983bdfb3838376d792668e1e587af3fa73f7b87a43da57e92e30b`)<br>• Báo cáo chất lượng dữ liệu: [reports/data_quality.md](reports/data_quality.md)<br>• Gói xuất bản: [release/public/DATA_CARD.md](release/public/DATA_CARD.md) & [dataset-metadata.json](release/public/dataset-metadata.json)<br>• Script đăng tải & báo cáo nghiệm thu Kaggle: [scripts/publish_kaggle.py](scripts/publish_kaggle.py), [reports/kaggle_verification.md](reports/kaggle_verification.md)<br>• **Dataset Kaggle Public:** [hanguynthun/hanoi-weather-multi-station-benchmark](https://www.kaggle.com/datasets/hanguynthun/hanoi-weather-multi-station-benchmark) |
-| Phase 2 | Đóng băng giao thức đánh giá | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
+| **Phase 2** | **Đóng băng giao thức đánh giá** | **HOÀN THÀNH** | • Lookback 72 mốc (6h), Horizon 12 mốc (60p) & Split theo thời gian (70% train, 15% val, 15% test): [src/weather/data/window.py](src/weather/data/window.py)<br>• Cấu hình đóng băng cố định: [configs/split.yaml](configs/split.yaml)<br>• Scaler Standard hoá huấn luyện độc quyền trên Train: `artifacts/scaler.pkl`<br>• Manifest phân chia & 3 mẫu kiểm chứng: [manifests/split_manifest.json](manifests/split_manifest.json)<br>• 25/25 Tests tự động đạt 100%: [tests/test_window.py](tests/test_window.py), [tests/test_baseline.py](tests/test_baseline.py)<br>• Mô hình đối chuẩn (Persistence, Ridge, LightGBM): [src/weather/models/baseline.py](src/weather/models/baseline.py)<br>• Pipeline đánh giá tự động: [src/weather/evaluate.py](src/weather/evaluate.py)<br>• Bảng kết quả đối chuẩn test: [reports/baselines.csv](reports/baselines.csv)<br>• Biểu đồ so sánh trực quan thực tế và dự báo: [reports/baseline_comparison.png](reports/baseline_comparison.png) |
 | Phase 3 | Thay encoder hoặc backbone bằng DINOv3 | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
 | Phase 4 | Đóng gói API và Docker | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
 | Phase 5 | CI/CD và PDF step by step | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
 | Phase 6 | Bàn giao và checklist cuối | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
+
+### Bảng Kết Quả Đối Chuẩn Mô Hình Baseline (Phase 2 Benchmark)
+
+| Mô hình (Model) | Macro MAE (°C) | Macro RMSE (°C) | Macro MedAE (°C) | Độ trễ suy luận (ms/mẫu) | Đánh giá |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Persistence ($\hat{y} = y_t$)** | 1.0025 | 1.0689 | 1.0167 | < 0.01 ms | Ngưỡng tối thiểu (mốc cơ sở) |
+| **Ridge Regression** | **0.2185** | **0.2712** | **0.1829** | 0.03 ms | Giảm 78.2% MAE so với Persistence |
+| **LightGBM Regressor** | **0.2357** | **0.2921** | **0.2061** | 0.25 ms | Giảm 76.5% MAE so với Persistence |
+
+*Toàn bộ 3 mô hình được đánh giá trên cùng tập Test (15% cuối dòng thời gian) với cùng scaler fit độc quyền trên tập Train.*
 
 ---
 
@@ -102,11 +120,11 @@ Yêu cầu: Python 3.10 – 3.12 trên hệ điều hành Windows / Linux.
 ```
 *Kết quả mong đợi:* Hiển thị chi tiết mã băm SHA-256, 1.000 dòng dữ liệu, chu kỳ 5 phút và 0 giá trị khuyết thiếu cho cả 6 trạm.
 
-### 4.4 Chạy bộ kiểm thử toàn diện (Unit Tests & Release Verification)
+### 4.4 Chạy bộ kiểm thử toàn diện (Unit Tests & Quality Suite)
 ```powershell
 .\run.ps1 test
 ```
-*Kết quả mong đợi:* Toàn bộ 16/16 test cases đạt `PASSED` (kiểm tra smoke test, chất lượng dữ liệu, chống lệch pha, metadata và tính toàn vẹn gói phát hành).
+*Kết quả mong đợi:* Toàn bộ 25/25 test cases đạt `PASSED` (kiểm tra smoke test, chất lượng dữ liệu, chống lệch pha, metadata gói Kaggle, cửa sổ trượt, không rò rỉ thời gian và tái lập baseline).
 
 ### 4.5 Phát hành và kiểm định gói dữ liệu Kaggle (Bước 1.3)
 ```powershell
@@ -117,6 +135,13 @@ Yêu cầu: Python 3.10 – 3.12 trên hệ điều hành Windows / Linux.
 .\run.ps1 publish-kaggle
 ```
 *Kết quả mong đợi:* Báo cáo nghiệm thu được tự động ghi nhận tại [reports/kaggle_verification.md](reports/kaggle_verification.md).
+
+### 4.6 Đánh giá các mô hình đối chuẩn Baseline (Bước 2.2)
+```powershell
+# Chạy đánh giá Persistence, Ridge Regression và LightGBM
+.\run.ps1 evaluate
+```
+*Kết quả mong đợi:* Tự động sinh báo cáo số liệu tại [reports/baselines.csv](reports/baselines.csv), lưu chuỗi dự báo [reports/predictions_baseline.csv](reports/predictions_baseline.csv) và biểu đồ trực quan tại [reports/baseline_comparison.png](reports/baseline_comparison.png).
 
 ---
 

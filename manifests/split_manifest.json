@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "data_version": "v1.0.0",
+    "random_seed": 42,
+    "lookback_steps": 72,
+    "horizon_steps": 12,
+    "time_interval_minutes": 5,
+    "split_ratios": {
+      "train": 0.7,
+      "val": 0.15,
+      "test": 0.15
+    },
+    "scaler_artifact": {
+      "path": "E:\\ChuyenDe\\ChuyenDe\\artifacts\\scaler.pkl",
+      "sha256": "824bca35ea72e97736beed63da74e7cc2937a9ec78a2df326250301b935a38b9",
+      "type": "StandardScaler (fitted on train only)"
+    }
+  },
+  "partitions": {
+    "train": {
+      "raw_rows": 700,
+      "timestamp_start": "2016-01-01 00:00:00",
+      "timestamp_end": "2016-01-03 10:15:00",
+      "num_window_samples": 617,
+      "target_timestamp_start": "2016-01-01 06:55:00",
+      "target_timestamp_end": "2016-01-03 10:15:00"
+    },
+    "val": {
+      "raw_rows": 150,
+      "timestamp_start": "2016-01-03 10:20:00",
+      "timestamp_end": "2016-01-03 22:45:00",
+      "num_window_samples": 67,
+      "target_timestamp_start": "2016-01-03 17:15:00",
+      "target_timestamp_end": "2016-01-03 22:45:00"
+    },
+    "test": {
+      "raw_rows": 150,
+      "timestamp_start": "2016-01-03 22:50:00",
+      "timestamp_end": "2016-01-04 11:15:00",
+      "num_window_samples": 67,
+      "target_timestamp_start": "2016-01-04 05:45:00",
+      "target_timestamp_end": "2016-01-04 11:15:00"
+    }
+  },
+  "three_example_samples": [
+    {
+      "split": "train",
+      "timestamp_t": "2016-01-01 05:55:00",
+      "timestamp_target_t_plus_12": "2016-01-01 06:55:00",
+      "target_station_temperatures": {
+        "st01_temperature": 16.2,
+        "st02_temperature": 15.6,
+        "st03_temperature": 15.1,
+        "st04_temperature": 15.0,
+        "st05_temperature": 14.5,
+        "st06_temperature": 13.5
+      }
+    },
+    {
+      "split": "val",
+      "timestamp_t": "2016-01-03 16:15:00",
+      "timestamp_target_t_plus_12": "2016-01-03 17:15:00",
+      "target_station_temperatures": {
+        "st01_temperature": 21.2,
+        "st02_temperature": 20.4,
+        "st03_temperature": 19.9,
+        "st04_temperature": 19.5,
+        "st05_temperature": 18.7,
+        "st06_temperature": 18.0
+      }
+    },
+    {
+      "split": "test",
+      "timestamp_t": "2016-01-04 04:45:00",
+      "timestamp_target_t_plus_12": "2016-01-04 05:45:00",
+      "target_station_temperatures": {
+        "st01_temperature": 14.6,
+        "st02_temperature": 14.4,
+        "st03_temperature": 14.5,
+        "st04_temperature": 13.5,
+        "st05_temperature": 12.8,
+        "st06_temperature": 11.8
+      }
+    }
+  ]
+}

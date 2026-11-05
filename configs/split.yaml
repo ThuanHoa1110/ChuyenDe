@@ -1,0 +1,49 @@
+# Evaluation Protocol & Dataset Split Configuration
+# Follows Phase 2, Step 2.1 specifications
+
+dataset:
+  data_version: "v1.0.0"
+  random_seed: 42
+  time_interval_minutes: 5
+  lookback_steps: 72       # Lookback: 72 mốc x 5 phút = 6 giờ
+  horizon_steps: 12        # Horizon chính: 12 mốc x 5 phút = 60 phút
+  horizon_steps_aux: 6     # Horizon phụ: 6 mốc x 5 phút = 30 phút
+
+stations:
+  - "ST01_HOANKIEM"
+  - "ST02_BADINH"
+  - "ST03_CAUGIAY"
+  - "ST04_HADONG"
+  - "ST05_DONGANH"
+  - "ST06_SOCSON"
+
+features:
+  - "temperature"
+  - "humidity"
+  - "dew_point"
+  - "apparent_temperature"
+  - "surface_pressure"
+  - "precipitation"
+  - "cloud_cover"
+  - "wind_speed_10m"
+  - "wind_gusts_10m"
+  - "solar_radiation"
+  - "direct_radiation"
+
+target_column: "temperature"
+
+split:
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  split_type: "chronological"
+  enforce_boundary_separation: true # Loại trừ rò rỉ tại biên giữa các tập
+
+scaling:
+  method: "standard"      # StandardScaler fit exclusively on train set
+  artifact_path: "artifacts/scaler.pkl"
+
+data_paths:
+  full_wide_csv: "data/processed/weather_wide_synced.csv.gz"
+  sample_wide_csv: "data/processed/weather_wide_synced_sample.csv"
+  manifest_path: "manifests/split_manifest.json"
