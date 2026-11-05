@@ -60,8 +60,8 @@ ChuyenDe/
 
 | Phase | Nội dung | Trạng thái | Bằng chứng nghiệm thu |
 | :---: | :--- | :---: | :--- |
-| **Phase 0** | **Khởi tạo và cổng quyền sử dụng** | **HOÀN THÀNH** | • Cấu trúc repo & khóa dependencies (`pyproject.toml`, `requirements.lock`)<br>• Script Runner: `run.ps1` (setup, test, inventory)<br>• 6/6 Smoke tests đạt 100% (`tests/test_smoke.py`)<br>• Báo cáo kiểm kê dữ liệu 6 trạm: [docs/data_inventory.md](docs/data_inventory.md)<br>• Báo cáo bản quyền & checkpoint: [docs/licensing_decisions.md](docs/licensing_decisions.md) |
-| Phase 1 | Thu thập dữ liệu private và phát hành Kaggle | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
+| **Phase 0** | **Khởi tạo và cổng quyền sử dụng** | **HOÀN THÀNH** | • Cấu trúc repo & khóa dependencies (`pyproject.toml`, `requirements.lock`)<br>• Script Runner: `run.ps1` (setup, test, inventory)<br>• 6/6 Smoke tests đạt 100% (`tests/test_smoke.py`)<br>• Báo cáo kiểm kê dữ liệu 6 trạm: [docs/data_inventory.md](docs/data_inventory.md)<br>• Báo cáo bản quyền & checkpoint: [docs/licensing_decisions.md](docs/licensing_decisions.md)<br>• Commit Git: `addcd63` |
+| **Phase 1** | **Thu thập dữ liệu private và phát hành Kaggle** | **ĐANG THỰC HIỆN** | • Nạp dữ liệu 10 năm 6 trạm (6,312,384 dòng): `src/weather/data/ingest.py`<br>• Manifest bất biến: [manifests/raw.json](manifests/raw.json)<br>• Bộ kiểm tra chất lượng & chống lệch pha: `src/weather/data/validate.py`<br>• 12/12 Unit tests kiểm định lỗi cố ý: `tests/test_validation.py`<br>• Bảng wide đồng bộ 67 cột (1,052,064 dòng): `data/processed/weather_wide_synced.csv.gz`<br>• Báo cáo chất lượng dữ liệu: [reports/data_quality.md](reports/data_quality.md)<br>• Gói xuất bản: [release/public/DATA_CARD.md](release/public/DATA_CARD.md) & [dataset-metadata.json](release/public/dataset-metadata.json) |
 | Phase 2 | Đóng băng giao thức đánh giá | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
 | Phase 3 | Thay encoder hoặc backbone bằng DINOv3 | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
 | Phase 4 | Đóng gói API và Docker | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |

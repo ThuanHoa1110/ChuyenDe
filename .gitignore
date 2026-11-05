@@ -22,8 +22,10 @@ cache/
 data/raw/
 data/private/
 data/processed/
+release/public/*.csv*
 *.zip
 *.tar.gz
+*.csv.gz
 
 # Model weights & Checkpoints
 checkpoints/
