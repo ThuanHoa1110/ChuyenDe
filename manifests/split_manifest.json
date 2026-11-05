@@ -11,7 +11,7 @@
       "test": 0.15
     },
     "scaler_artifact": {
-      "path": "E:\\ChuyenDe\\ChuyenDe\\artifacts\\scaler.pkl",
+      "path": "artifacts/scaler.pkl",
       "sha256": "824bca35ea72e97736beed63da74e7cc2937a9ec78a2df326250301b935a38b9",
       "type": "StandardScaler (fitted on train only)"
     }

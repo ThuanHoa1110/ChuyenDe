@@ -1,0 +1,42 @@
+# Image Tensor Encoding Configuration for DINOv3 Backbone
+# Follows Phase 3, Step 3.1 specifications
+
+image_encoding:
+  target_image_size: [224, 224]   # Standard DINOv3 input [Height, Width]
+  num_channels: 3                 # 3 physical channels
+  channels_description:
+    channel_0: "Normalized meteorological values (Z-score from train split)"
+    channel_1: "Past temporal rate of change (first-order difference x_t - x_{t-1})"
+    channel_2: "Observation mask (1.0 for valid observed, 0.0 for missing/imputed)"
+
+spatial_temporal_grid:
+  num_stations: 6
+  num_variables_per_station: 11
+  matrix_height: 66               # H = 6 stations * 11 variables = 66 rows
+  matrix_width: 72                # W = 72 lookback steps = 72 columns (5-min intervals)
+
+station_order:
+  - "ST01_HOANKIEM"
+  - "ST02_BADINH"
+  - "ST03_CAUGIAY"
+  - "ST04_HADONG"
+  - "ST05_DONGANH"
+  - "ST06_SOCSON"
+
+variable_order:
+  - "temperature"
+  - "humidity"
+  - "dew_point"
+  - "apparent_temperature"
+  - "surface_pressure"
+  - "precipitation"
+  - "cloud_cover"
+  - "wind_speed_10m"
+  - "wind_gusts_10m"
+  - "solar_radiation"
+  - "direct_radiation"
+
+interpolation_mode: "bilinear"    # Interpolation mode to resize (66, 72) -> (224, 224)
+save_sample_images: true
+sample_image_output_dir: "reports/image_samples"
+mapping_diagram_path: "docs/image_encoding_mapping.md"

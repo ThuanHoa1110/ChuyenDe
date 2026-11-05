@@ -118,3 +118,4 @@ def test_baseline_deliverables_and_reports_exist():
     # Check 6 stations have individual metrics
     for i in range(1, 7):
         assert f"ST0{i}_mae" in df_b.columns
+

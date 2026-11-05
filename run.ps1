@@ -5,6 +5,7 @@ param(
     [string]$Command,
 
     [string]$Config = "",
+    [string]$Checkpoint = "",
     [switch]$Smoke = $false,
     [switch]$Cuda = $false,
     [switch]$DryRun = $false
@@ -27,11 +28,10 @@ switch ($Command) {
         }
     }
     "evaluate" {
-        if ($Config -ne "") {
-            & "$PSScriptRoot\scripts\evaluate.ps1" -Config $Config
-        } else {
-            & "$PSScriptRoot\scripts\evaluate.ps1"
-        }
+        $evalArgs = @{}
+        if ($Config -ne "") { $evalArgs["Config"] = $Config }
+        if ($Checkpoint -ne "") { $evalArgs["Checkpoint"] = $Checkpoint }
+        & "$PSScriptRoot\scripts\evaluate.ps1" @evalArgs
     }
     "serve" {
         & "$PSScriptRoot\scripts\serve.ps1"

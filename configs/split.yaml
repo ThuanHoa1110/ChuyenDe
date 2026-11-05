@@ -47,3 +47,4 @@ data_paths:
   full_wide_csv: "data/processed/weather_wide_synced.csv.gz"
   sample_wide_csv: "data/processed/weather_wide_synced_sample.csv"
   manifest_path: "manifests/split_manifest.json"
+

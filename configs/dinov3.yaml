@@ -1,0 +1,31 @@
+# DINOv3 Forecaster Model & Training Configuration
+# Follows Phase 3, Step 3.2 specifications
+
+model:
+  name: "dinov3_forecaster"
+  dinov3_model_id: "facebook/dinov3-vits16-pretrain-lvd1689m"
+  fallback_model_id: "facebook/dinov2-small"
+  freeze_backbone: true             # Freeze pretrained DINOv3 ViT-S/16 backbone
+  image_size: [224, 224]
+  input_channels: 3                 # Channel 0: Norm, Channel 1: Delta, Channel 2: Mask
+  num_outputs: 6                    # 6 target stations temperature
+  hidden_dim: 384                   # ViT-S/16 CLS embedding size
+  head_hidden_dim: 128              # Regression head projection dimension
+  dropout: 0.15
+
+training:
+  batch_size: 16
+  learning_rate: 0.0005
+  weight_decay: 0.0001
+  max_epochs: 30
+  early_stopping_patience: 8
+  loss_fn: "huber"                  # Huber loss (smooth L1) for robust temperature regression
+  random_seed: 42
+  device: "auto"                    # Automatically picks CUDA if available, else CPU
+
+paths:
+  split_config: "configs/split.yaml"
+  image_config: "configs/image.yaml"
+  checkpoint_dir: "checkpoints"
+  checkpoint_path: "checkpoints/dinov3_forecaster_best.pt"
+  metrics_report: "reports/dinov3_metrics.json"

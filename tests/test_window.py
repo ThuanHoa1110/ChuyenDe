@@ -144,3 +144,4 @@ def test_split_manifest_and_examples():
         assert "timestamp_t" in ex
         assert "timestamp_target_t_plus_12" in ex
         assert len(ex["target_station_temperatures"]) == 6
+
