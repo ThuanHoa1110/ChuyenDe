@@ -1,0 +1,61 @@
+# Default Project Configuration for Hanoi Short-Term Multi-Station Temperature Forecasting
+
+project:
+  name: "hanoi-temperature-forecasting"
+  version: "0.1.0"
+  random_seed: 42
+
+data:
+  stations:
+    - "ST01_HOANKIEM"
+    - "ST02_BADINH"
+    - "ST03_CAUGIAY"
+    - "ST04_HADONG"
+    - "ST05_DONGANH"
+    - "ST06_SOCSON"
+  features:
+    - "temperature"
+    - "humidity"
+    - "dew_point"
+    - "apparent_temperature"
+    - "surface_pressure"
+    - "precipitation"
+    - "cloud_cover"
+    - "wind_speed_10m"
+    - "wind_gusts_10m"
+    - "solar_radiation"
+    - "direct_radiation"
+  target_column: "temperature"
+  time_interval_minutes: 5
+  lookback_steps: 72       # 72 steps * 5 mins = 6 hours of historical context
+  horizon_steps: 12        # 12 steps * 5 mins = 60 minutes forecast horizon (main)
+  horizon_steps_aux: 6     # 6 steps * 5 mins = 30 minutes forecast horizon (auxiliary)
+  sample_dir: "data/sample"
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+
+model:
+  backbone: "dinov3_vits16"
+  pretrained: true
+  freeze_backbone: true
+  num_outputs: 6          # 6 stations temperature predictions
+  image_size: [224, 224]
+  input_channels: 3       # Channel 1: Normalized values, Channel 2: Past deltas, Channel 3: Missing masks
+
+split:
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  split_type: "chronological"
+
+training:
+  batch_size: 16
+  learning_rate: 0.0005
+  loss_fn: "huber"
+  max_epochs: 50
+  early_stopping_patience: 10
+
+serving:
+  host: "0.0.0.0"
+  port: 8000
+

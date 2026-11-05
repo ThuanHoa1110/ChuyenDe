@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches and virtual environments
+.pytest_cache/
+.venv/
+venv/
+ENV/
+env/
+.cache/
+cache/
+
+# Environment variables & secrets
+.env
+.env.local
+*.key
+*.token
+
+# Data directories (only sample test data is tracked)
+data/raw/
+data/private/
+data/processed/
+*.zip
+*.tar.gz
+
+# Model weights & Checkpoints
+checkpoints/
+models_weights/
+*.pt
+*.pth
+*.bin
+*.onnx
+
+# Artifacts & Build outputs
+artifacts/
+build/
+dist/
+*.egg-info/
+.coverage
+htmlcov/
+*.log
+

@@ -1,82 +1,101 @@
-# TimeXer
+# Dự Án Dự Báo Nhiệt Độ Ngắn Hạn Đa Khu Vực Tại Hà Nội
+## (Hanoi Multi-Station Short-Term Temperature Forecasting using DINOv3 Backbone)
 
-This repo is the official implementation for the paper: [TimeXer: Empowering Transformers for Time Series Forecasting with Exogenous Variables](https://arxiv.org/abs/2402.19072).
+Dự án nghiên cứu và triển khai hệ thống học sâu dự báo nhiệt độ ngắn hạn (t + 60 phút) tại 6 trạm quan trắc khí tượng trọng điểm trên địa bàn Hà Nội. Dự án ứng dụng kiến trúc chuyển đổi không gian - thời gian thành biểu diễn ảnh 3 kênh kết hợp với mô hình nền tảng thị giác **DINOv3 (Meta Research)** và regression head đa đầu ra.
 
-## Introduction
-This paper focuses on forecasting with exogenous variables which is a practical forecasting paradigm applied extensively in real scenarios. TimeXer empower the canonical Transformer with the ability to reconcile endogenous and exogenous information without any architectural modifications and achieves consistent state-of-the-art performance on twelve real-world forecasting benchmarks.
+---
 
-<p align="center">
-<img src=".\figures\Introduction.png" width = "800" height = "" alt="" align=center />
-</p>
+## 1. Mục Tiêu Dự Án & Quyết Định Thiết Kế
 
-## Overall Architecture
-TimeXer employs patch-level and variate-level representations respectively for endogenous and exogenous variables, with an endogenous global token as a bridge in-between. With this design, TimeXer can jointly capture intra-endogenous temporal dependencies and exogenous-to-endogenous correlations.
+- **Mục tiêu chính:** Dự báo nhiệt độ đồng thời tại cả 6 trạm sau **60 phút** (t + 12 mốc 5 phút) từ chuỗi quan sát quá khứ đến thời điểm $t$.
+- **Thử nghiệm phụ:** Dự báo tại mốc **30 phút** (t + 6 mốc).
+- **Đơn vị mẫu:** Cửa sổ trượt lookback 72 mốc (tương đương 6 giờ dữ liệu quá khứ, chu kỳ 5 phút).
+- **Mã hóa DINOv3:** Dữ liệu chuỗi thời gian đa trạm đa biến được mã hóa thành tensor ma trận ảnh 3 kênh:
+  - *Channel 1:* Giá trị chuẩn hóa.
+  - *Channel 2:* Sai phân biến thiên quá khứ.
+  - *Channel 3:* Mask đánh dấu trạng thái thiếu dữ liệu.
+- **Backbone:** DINOv3 (ViT-S/16) đóng băng trọng số ban đầu, gắn Regression Head trả về 6 giá trị nhiệt độ.
+- **Tiêu chuẩn bàn giao:** GitHub Public, Kaggle Dataset Public, Docker Hub Image Public, tài liệu PDF step-by-step cho CI/CD & Docker.
 
-<p align="center">
-<img src=".\figures\TimeXer.png" width = "800" height = "" alt="" align=center />
-</p>
+---
 
-## Usage 
+## 2. Cấu Trúc Repository
 
-1. Short-term Electricity Price Forecasting Dataset have alreadly included in "./dataset/EPF". Multivariate datasets can be obtained from [[Google Drive]](https://drive.google.com/drive/folders/13Cg1KYOlzM5C7K8gK8NfC-F3EYxkM3D2?usp=sharing) or [[Baidu Drive]](https://pan.baidu.com/s/1r3KhGd0Q9PJIUZdfEYoymg?pwd=i9iy).
-
-2. Install Pytorch and other necessary dependencies.
-```
-pip install -r requirements.txt
-```
-3. Train and evaluate model. We provide the experiment scripts under the folder ./scripts/. You can reproduce the experiment results as the following examples:
-
-```
-bash ./scripts/forecast_exogenous/EPF/TimeXer.sh
-```
-
-## Main Results
-We evaluate TimeXer on short-term forecasting with exogenous variables and long-term multivariate forecasting benchmarks. Comprehensive forecasting results demonstrate that TimeXer effectively ingests exogenous information to facilitate the prediction of endogenous series.
-
-### Forecasting with Exogenous
-
-<p align="center">
-<img src=".\figures\Result_EPF.png" width = "800" height = "" alt="" align=center />
-</p>
-
-### Multivariate Forecasting
-
-<p align="center">
-<img src=".\figures\Result_Multivariate.png" width = "800" height = "" alt="" align=center />
-</p>
-
-## Experiments on Large-scale Meteorology Dataset
-In this paper, we build a large-scale weather dataset for forecasting with exogenous variables, where the endogenous series is the hourly temperature of 3,850 stations worldwide obtained from the National Centers for Environmental Information (NCEI), and the exogenous variables are meteorological indicators of its adjacent area from the ERA5 dataset. You can obtain this meteorology dataset from [[Google Drive]](https://drive.google.com/file/d/1EuEedepUV2A_cia1plAHwA6fJXNio47i/view?usp=drive_link).
-
-<p align="center">
-<img src=".\figures\ERA5.png" width = "800" alt="" align=center />
-</p>
-
-## Citation
-If you find this repo helpful, please cite our paper.
-
-```
-@article{wang2024timexer,
-  title={Timexer: Empowering transformers for time series forecasting with exogenous variables},
-  author={Wang, Yuxuan and Wu, Haixu and Dong, Jiaxiang and Liu, Yong and Qiu, Yunzhong and Zhang, Haoran and Wang, Jianmin and Long, Mingsheng},
-  journal={Advances in Neural Information Processing Systems},
-  year={2024}
-}
+```text
+ChuyenDe/
+├── configs/                       # Cấu hình tham số mô hình, dữ liệu, huấn luyện
+│   └── default.yaml
+├── data/
+│   ├── sample/                    # 6 file CSV mẫu (1.000 dòng/trạm) phục vụ test
+│   └── README.md                  # Hướng dẫn chi tiết về dữ liệu
+├── docs/
+│   ├── data_inventory.md          # Kiểm kê dữ liệu, mã băm SHA-256, số dòng, khoảng thời gian
+│   └── licensing_decisions.md     # Quyết định bản quyền, giấy phép dữ liệu & checkpoint
+├── scripts/
+│   ├── inventory_check.py         # Script kiểm kê mã băm dữ liệu 6 trạm
+│   ├── setup.ps1                  # Khởi tạo môi trường ảo và cài đặt dependencies
+│   ├── test.ps1                   # Chạy bộ kiểm thử tự động pytest
+│   ├── train.ps1                  # Huấn luyện mô hình
+│   ├── evaluate.ps1               # Đánh giá mô hình
+│   └── serve.ps1                  # Khởi chạy FastAPI inference service
+├── src/
+│   └── weather/                   # Package mã nguồn chính
+│       ├── data/                  # Ingestion, validation, windowing, image encoding
+│       ├── models/                # Baseline & DINOv3 Forecaster
+│       └── api/                   # FastAPI serving endpoints
+├── tests/
+│   └── test_smoke.py              # Bộ smoke test kiểm tra toàn vẹn Phase 0
+├── .env.example                   # Mẫu khai báo biến môi trường (không chứa secret)
+├── .gitignore                     # Chặn file nhạy cảm, data/raw, checkpoints
+├── pyproject.toml                 # Đặc tả gói và metadata dự án
+├── requirements.txt               # Danh mục phụ thuộc chính
+├── requirements.lock              # Khóa phiên bản phụ thuộc chi tiết
+├── run.ps1                        # Runner PowerShell điều phối toàn bộ pipeline
+└── README.md
 ```
 
-## Acknowledgement
-We appreciate the following GitHub repos a lot for their valuable code and efforts.
+---
 
-Reformer (https://github.com/lucidrains/reformer-pytorch)
+## 3. Nhật Ký Tiến Độ Thực Thi (Phase Progress Log)
 
-Informer (https://github.com/zhouhaoyi/Informer2020)
+| Phase | Nội dung | Trạng thái | Bằng chứng nghiệm thu |
+| :---: | :--- | :---: | :--- |
+| **Phase 0** | **Khởi tạo và cổng quyền sử dụng** | **HOÀN THÀNH** | • Cấu trúc repo & khóa dependencies (`pyproject.toml`, `requirements.lock`)<br>• Script Runner: `run.ps1` (setup, test, inventory)<br>• 6/6 Smoke tests đạt 100% (`tests/test_smoke.py`)<br>• Báo cáo kiểm kê dữ liệu 6 trạm: [docs/data_inventory.md](docs/data_inventory.md)<br>• Báo cáo bản quyền & checkpoint: [docs/licensing_decisions.md](docs/licensing_decisions.md) |
+| Phase 1 | Thu thập dữ liệu private và phát hành Kaggle | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
+| Phase 2 | Đóng băng giao thức đánh giá | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
+| Phase 3 | Thay encoder hoặc backbone bằng DINOv3 | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
+| Phase 4 | Đóng gói API và Docker | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
+| Phase 5 | CI/CD và PDF step by step | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
+| Phase 6 | Bàn giao và checklist cuối | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
 
-Autoformer (https://github.com/thuml/Autoformer)
+---
 
-Stationary (https://github.com/thuml/Nonstationary_Transformers)
+## 4. Hướng Dẫn Tái Lập (Quickstart & Reproduction)
 
-Time-Series-Library (https://github.com/thuml/Time-Series-Library)
+### 4.1 Khởi tạo môi trường
+Yêu cầu: Python 3.10 – 3.12 trên hệ điều hành Windows / Linux.
+```powershell
+# Chạy thiết lập tự động
+.\run.ps1 setup
+```
 
-## Concat
+### 4.2 Chạy kiểm tra Smoke Test (Phase 0 Verification)
+```powershell
+# Chạy bộ test kiểm tra cấu trúc và tính toàn vẹn của dữ liệu mẫu
+.\run.ps1 test -Smoke
+```
+*Kết quả mong đợi:* Toàn bộ 6/6 test cases đạt `PASSED` trong vòng dưới 2 giây.
 
-If you have any questions or want to use the code, please contact wangyuxu22@mails.tsinghua.edu.cn
+### 4.3 Kiểm kê và xác minh mã băm dữ liệu
+```powershell
+.\run.ps1 inventory
+```
+*Kết quả mong đợi:* Hiển thị chi tiết mã băm SHA-256, 1.000 dòng dữ liệu, chu kỳ 5 phút và 0 giá trị khuyết thiếu cho cả 6 trạm.
+
+---
+
+## 5. Giấy Phép & Bảo Mật
+
+- Dữ liệu riêng tư và checkpoint không được commit lên Git (đã được cấu hình trong `.gitignore`).
+- Mã nguồn dự án tuân thủ giấy phép mã nguồn mở MIT.
+- Trọng số mô hình DINOv3 tuân thủ điều khoản nghiên cứu của Meta AI.
