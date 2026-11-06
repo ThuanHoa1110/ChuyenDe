@@ -93,7 +93,7 @@ ChuyenDe/
 | **Phase 1** | **Thu thập dữ liệu private và phát hành Kaggle** | **HOÀN THÀNH** | • Nạp dữ liệu 10 năm 6 trạm (6,312,384 dòng): `src/weather/data/ingest.py`<br>• Manifest bất biến: [manifests/raw.json](manifests/raw.json)<br>• Bộ kiểm tra chất lượng & chống lệch pha: `src/weather/data/validate.py`<br>• 16/16 Tests chất lượng & release đạt 100%: `tests/test_validation.py`, `tests/test_release.py`<br>• Bảng wide đồng bộ 67 cột (1,052,064 dòng): `release/public/weather_wide_synced.csv.gz` (SHA-256: `1a449407ab7983bdfb3838376d792668e1e587af3fa73f7b87a43da57e92e30b`)<br>• Báo cáo chất lượng dữ liệu: [reports/data_quality.md](reports/data_quality.md)<br>• Gói xuất bản: [release/public/DATA_CARD.md](release/public/DATA_CARD.md) & [dataset-metadata.json](release/public/dataset-metadata.json)<br>• Script đăng tải & báo cáo nghiệm thu Kaggle: [scripts/publish_kaggle.py](scripts/publish_kaggle.py), [reports/kaggle_verification.md](reports/kaggle_verification.md)<br>• **Dataset Kaggle Public:** [hanguynthun/hanoi-weather-multi-station-benchmark](https://www.kaggle.com/datasets/hanguynthun/hanoi-weather-multi-station-benchmark) |
 | **Phase 2** | **Đóng băng giao thức đánh giá** | **HOÀN THÀNH** | • Lookback 72 mốc (6h), Horizon 12 mốc (60p) & Split theo thời gian (70% train, 15% val, 15% test): [src/weather/data/window.py](src/weather/data/window.py)<br>• Cấu hình đóng băng cố định: [configs/split.yaml](configs/split.yaml)<br>• Scaler Standard hoá huấn luyện độc quyền trên Train: `artifacts/scaler.pkl`<br>• Manifest phân chia & 3 mẫu kiểm chứng: [manifests/split_manifest.json](manifests/split_manifest.json)<br>• 25/25 Tests tự động đạt 100%: [tests/test_window.py](tests/test_window.py), [tests/test_baseline.py](tests/test_baseline.py)<br>• Mô hình đối chuẩn (Persistence, Ridge, LightGBM): [src/weather/models/baseline.py](src/weather/models/baseline.py)<br>• Pipeline đánh giá tự động: [src/weather/evaluate.py](src/weather/evaluate.py)<br>• Bảng kết quả đối chuẩn test: [reports/baselines.csv](reports/baselines.csv)<br>• Biểu đồ so sánh trực quan thực tế và dự báo: [reports/baseline_comparison.png](reports/baseline_comparison.png) |
 | **Phase 3** | **Thay encoder hoặc backbone bằng DINOv3** | **HOÀN THÀNH** | • Mã hóa ma trận ảnh 3 kênh (Normalized, Past Deltas, Mask): [src/weather/data/image.py](src/weather/data/image.py), [configs/image.yaml](configs/image.yaml)<br>• Sơ đồ đặc tả ánh xạ không gian - thời gian: [docs/image_encoding_mapping.md](docs/image_encoding_mapping.md)<br>• Ảnh mẫu trực quan hóa 3 kênh: [reports/image_samples/sample_window_encoding.png](reports/image_samples/sample_window_encoding.png)<br>• Kiến trúc DINOv3 Forecaster đa trạm: [src/weather/models/dinov3_forecaster.py](src/weather/models/dinov3_forecaster.py), [configs/dinov3.yaml](configs/dinov3.yaml)<br>• Huấn luyện với Huber Loss & Early Stopping: [src/weather/train.py](src/weather/train.py)<br>• Checkpoint tối ưu (SHA-256: `8052a305...`): `checkpoints/dinov3_forecaster_best.pt`<br>• Đường cong huấn luyện & metrics: [reports/dinov3_loss_curve.png](reports/dinov3_loss_curve.png), [reports/dinov3_metrics.json](reports/dinov3_metrics.json)<br>• Model Card chuẩn mực: [model_card.md](model_card.md)<br>• Bảng tổng hợp đối chuẩn: [reports/comparison.csv](reports/comparison.csv)<br>• 34/34 Tests tự động đạt 100%: [tests/test_image.py](tests/test_image.py), [tests/test_dinov3.py](tests/test_dinov3.py) |
-| Phase 4 | Đóng gói API và Docker | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
+| **Phase 4** | **Đóng gói API và Docker** | **HOÀN THÀNH** | • FastAPI endpoints (`GET /health`, `GET /metadata`, `POST /predict`): [src/weather/api/app.py](src/weather/api/app.py)<br>• Lifespan nạp model & scaler 1 lần lúc startup; không train lúc gọi API<br>• Payload mẫu & Báo cáo nghiệm thu API: [docs/api_example.json](docs/api_example.json), [reports/api_verification.md](reports/api_verification.md)<br>• Docker hóa chuẩn bảo mật Non-Root (`appuser` UID 10001): [Dockerfile](Dockerfile), [.dockerignore](.dockerignore)<br>• Hướng dẫn chi tiết triển khai & xuất bản Docker Hub: [docs/docker_run.md](docs/docker_run.md)<br>• 15/15 Tests API & Docker (49/49 toàn dự án đạt 100%): [tests/test_api.py](tests/test_api.py), [tests/test_docker.py](tests/test_docker.py) |
 | Phase 5 | CI/CD và PDF step by step | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
 | Phase 6 | Bàn giao và checklist cuối | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
 
@@ -151,7 +151,7 @@ Yêu cầu: Python 3.10 – 3.12 trên hệ điều hành Windows / Linux.
 ```powershell
 .\run.ps1 test
 ```
-*Kết quả mong đợi:* Toàn bộ 34/34 test cases đạt `PASSED` (kiểm tra smoke test, chất lượng dữ liệu, chống lệch pha, metadata gói Kaggle, cửa sổ trượt, không rò rỉ thời gian, tái lập baseline, mã hóa ảnh 3 kênh và kiến trúc forward/backward DINOv3).
+*Kết quả mong đợi:* Toàn bộ 49/49 test cases đạt `PASSED` (kiểm tra smoke test, chất lượng dữ liệu, chống lệch pha, metadata gói Kaggle, cửa sổ trượt, không rò rỉ thời gian, tái lập baseline, mã hóa ảnh 3 kênh, kiến trúc DINOv3, chuẩn hóa REST API và cấu hình an toàn Docker).
 
 ### 4.5 Phát hành và kiểm định gói dữ liệu Kaggle (Bước 1.3)
 ```powershell
@@ -186,6 +186,31 @@ Yêu cầu: Python 3.10 – 3.12 trên hệ điều hành Windows / Linux.
 .\run.ps1 evaluate -Checkpoint checkpoints/dinov3_forecaster_best.pt
 ```
 *Kết quả mong đợi:* Tự động xuất metrics kiểm định độc lập tại [reports/dinov3_metrics.json](reports/dinov3_metrics.json).
+
+### 4.9 Khởi chạy dịch vụ API Inference (Bước 4.1)
+```powershell
+# Khởi chạy máy chủ FastAPI (mặc định host 0.0.0.0, port 8000)
+.\run.ps1 serve
+
+# Truy cập Swagger UI trực quan trên trình duyệt: http://localhost:8000/docs
+# Kiểm tra trạng thái: curl http://localhost:8000/health
+# Thực hiện dự báo:
+curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d @docs/api_example.json
+```
+*Kết quả mong đợi:* Trả về dự báo nhiệt độ hữu hạn cho 6 trạm tại $t+60$ phút, độ trễ < 100ms. Chi tiết tại [reports/api_verification.md](reports/api_verification.md).
+
+### 4.10 Đóng gói và chạy Docker Container (Bước 4.2)
+```powershell
+# Xây dựng Docker Image (non-root user, slim Python base)
+docker build -t hanguynthun/hanoi-temperature:v1.0.0 .
+
+# Khởi chạy container với checkpoint runtime mount (chỉ đọc)
+docker run -d --name hanoi-weather-api -p 8000:8000 `
+  -v "${PWD}/checkpoints:/app/checkpoints:ro" `
+  -v "${PWD}/artifacts:/app/artifacts:ro" `
+  hanguynthun/hanoi-temperature:v1.0.0
+```
+*Chi tiết hướng dẫn đẩy Docker Hub và kiểm định máy sạch tại [docs/docker_run.md](docs/docker_run.md).*
 
 ---
 

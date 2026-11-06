@@ -12,7 +12,7 @@ import sys
 import json
 import pickle
 import hashlib
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple, Optional, Union
 import numpy as np
 import pandas as pd
 
@@ -40,14 +40,18 @@ class StandardFeatureScaler:
         self.scale_[self.scale_ == 0.0] = 1.0
         return self
 
-    def transform(self, df: pd.DataFrame) -> pd.DataFrame:
+    def transform(self, df_or_arr: Union[pd.DataFrame, np.ndarray]) -> Union[pd.DataFrame, np.ndarray]:
         if self.mean_ is None or self.scale_ is None:
             raise ValueError("Scaler is not fitted yet.")
-        out_df = df.copy()
-        data = out_df[self.columns_].to_numpy(dtype=np.float64)
-        scaled_data = (data - self.mean_) / self.scale_
-        out_df[self.columns_] = scaled_data
-        return out_df
+        if isinstance(df_or_arr, pd.DataFrame):
+            out_df = df_or_arr.copy()
+            data = out_df[self.columns_].to_numpy(dtype=np.float64)
+            scaled_data = (data - self.mean_) / self.scale_
+            out_df[self.columns_] = scaled_data
+            return out_df
+        else:
+            arr = np.asarray(df_or_arr, dtype=np.float64)
+            return (arr - self.mean_) / self.scale_
 
     def save(self, filepath: str) -> str:
         os.makedirs(os.path.dirname(filepath), exist_ok=True)

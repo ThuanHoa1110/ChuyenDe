@@ -124,24 +124,23 @@ class DINOv3_Forecaster(nn.Module):
         )
 
     def _init_backbone(self) -> Tuple[nn.Module, str]:
-        """Loads Hugging Face AutoModel or falls back to StandaloneViTSmallBackbone."""
+        """Loads Hugging Face AutoModel or falls back instantly to StandaloneViTSmallBackbone."""
         try:
             from transformers import AutoModel
+            # First check local HF cache to prevent network blocking / timeouts
             try:
-                # Try loading requested DINOv3 model ID
-                backbone = AutoModel.from_pretrained(self.model_id)
+                backbone = AutoModel.from_pretrained(self.model_id, local_files_only=True)
                 return backbone, "huggingface_dinov3"
             except Exception:
                 try:
-                    # Fallback to public DINOv2-small
-                    backbone = AutoModel.from_pretrained(self.fallback_model_id)
+                    backbone = AutoModel.from_pretrained(self.fallback_model_id, local_files_only=True)
                     return backbone, "huggingface_dinov2_small"
                 except Exception:
                     pass
         except ImportError:
             pass
 
-        # Standalone ViT-S/16 backbone
+        # Standalone ViT-S/16 backbone (fully offline, instant, zero latency)
         backbone = StandaloneViTSmallBackbone(
             img_size=self.image_size,
             patch_size=16,
@@ -202,3 +201,8 @@ class DINOv3_Forecaster(nn.Module):
         if return_features:
             return predictions, features
         return predictions
+
+
+# Convenient alias
+DINOv3Forecaster = DINOv3_Forecaster
+

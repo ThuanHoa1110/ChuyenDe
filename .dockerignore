@@ -1,0 +1,53 @@
+# Git and project management
+.git/
+.gitignore
+.gitattributes
+.github/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python byte code and cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Sensitive data and environment files
+data/private/
+data/raw/
+.env
+.env.*
+*.key
+*.pem
+credentials.json
+kaggle.json
+
+# Checkpoints (mounted at runtime as read-only volume for container efficiency)
+checkpoints/*.pt
+checkpoints/*.pth
+checkpoints/*.bin
+
+# IDE and Editor configurations
+.vscode/
+.idea/
+.gemini/
+*.swp
+*.swo
+
+# Local build artifacts and logs
+build/
+dist/
+*.egg-info/
+*.log
+logs/
+
+# Miscellaneous
+tmp/
+scratch/
