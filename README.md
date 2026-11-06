@@ -94,7 +94,7 @@ ChuyenDe/
 | **Phase 2** | **Đóng băng giao thức đánh giá** | **HOÀN THÀNH** | • Lookback 72 mốc (6h), Horizon 12 mốc (60p) & Split theo thời gian (70% train, 15% val, 15% test): [src/weather/data/window.py](src/weather/data/window.py)<br>• Cấu hình đóng băng cố định: [configs/split.yaml](configs/split.yaml)<br>• Scaler Standard hoá huấn luyện độc quyền trên Train: `artifacts/scaler.pkl`<br>• Manifest phân chia & 3 mẫu kiểm chứng: [manifests/split_manifest.json](manifests/split_manifest.json)<br>• 25/25 Tests tự động đạt 100%: [tests/test_window.py](tests/test_window.py), [tests/test_baseline.py](tests/test_baseline.py)<br>• Mô hình đối chuẩn (Persistence, Ridge, LightGBM): [src/weather/models/baseline.py](src/weather/models/baseline.py)<br>• Pipeline đánh giá tự động: [src/weather/evaluate.py](src/weather/evaluate.py)<br>• Bảng kết quả đối chuẩn test: [reports/baselines.csv](reports/baselines.csv)<br>• Biểu đồ so sánh trực quan thực tế và dự báo: [reports/baseline_comparison.png](reports/baseline_comparison.png) |
 | **Phase 3** | **Thay encoder hoặc backbone bằng DINOv3** | **HOÀN THÀNH** | • Mã hóa ma trận ảnh 3 kênh (Normalized, Past Deltas, Mask): [src/weather/data/image.py](src/weather/data/image.py), [configs/image.yaml](configs/image.yaml)<br>• Sơ đồ đặc tả ánh xạ không gian - thời gian: [docs/image_encoding_mapping.md](docs/image_encoding_mapping.md)<br>• Ảnh mẫu trực quan hóa 3 kênh: [reports/image_samples/sample_window_encoding.png](reports/image_samples/sample_window_encoding.png)<br>• Kiến trúc DINOv3 Forecaster đa trạm: [src/weather/models/dinov3_forecaster.py](src/weather/models/dinov3_forecaster.py), [configs/dinov3.yaml](configs/dinov3.yaml)<br>• Huấn luyện với Huber Loss & Early Stopping: [src/weather/train.py](src/weather/train.py)<br>• Checkpoint tối ưu (SHA-256: `8052a305...`): `checkpoints/dinov3_forecaster_best.pt`<br>• Đường cong huấn luyện & metrics: [reports/dinov3_loss_curve.png](reports/dinov3_loss_curve.png), [reports/dinov3_metrics.json](reports/dinov3_metrics.json)<br>• Model Card chuẩn mực: [model_card.md](model_card.md)<br>• Bảng tổng hợp đối chuẩn: [reports/comparison.csv](reports/comparison.csv)<br>• 34/34 Tests tự động đạt 100%: [tests/test_image.py](tests/test_image.py), [tests/test_dinov3.py](tests/test_dinov3.py) |
 | **Phase 4** | **Đóng gói API và Docker** | **HOÀN THÀNH** | • FastAPI endpoints (`GET /health`, `GET /metadata`, `POST /predict`): [src/weather/api/app.py](src/weather/api/app.py)<br>• Lifespan nạp model & scaler 1 lần lúc startup; không train lúc gọi API<br>• Payload mẫu & Báo cáo nghiệm thu API: [docs/api_example.json](docs/api_example.json), [reports/api_verification.md](reports/api_verification.md)<br>• Docker hóa chuẩn bảo mật Non-Root (`appuser` UID 10001): [Dockerfile](Dockerfile), [.dockerignore](.dockerignore)<br>• Hướng dẫn chi tiết triển khai & xuất bản Docker Hub: [docs/docker_run.md](docs/docker_run.md)<br>• 15/15 Tests API & Docker (49/49 toàn dự án đạt 100%): [tests/test_api.py](tests/test_api.py), [tests/test_docker.py](tests/test_docker.py) |
-| Phase 5 | CI/CD và PDF step by step | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
+| **Phase 5** | **CI/CD và PDF step by step** | **HOÀN THÀNH** | • GitHub Actions CI (`.github/workflows/ci.yml`): lint, 54 unit tests (CPU offline), Docker dry-run, ghim action commit SHA, `permissions: contents: read`<br>• GitHub Actions CD Release (`.github/workflows/release.yml`): trigger tag SemVer `v*`, xác thực Docker Hub bằng Secrets, output digest<br>• Tài liệu vận hành & rollback: [docs/release.md](docs/release.md), [docs/ci_cd_docker_step_by_step.md](docs/ci_cd_docker_step_by_step.md)<br>• **Tài liệu PDF chuyển giao chính thức (116 KB):** [docs/ci_cd_docker_step_by_step.pdf](docs/ci_cd_docker_step_by_step.pdf)<br>• 54/54 Tests tự động đạt 100%: [tests/test_cicd.py](tests/test_cicd.py) (5/5 tests) |
 | Phase 6 | Bàn giao và checklist cuối | Chờ lệnh | Sẽ thực hiện khi có yêu cầu |
 
 ---
@@ -151,7 +151,7 @@ Yêu cầu: Python 3.10 – 3.12 trên hệ điều hành Windows / Linux.
 ```powershell
 .\run.ps1 test
 ```
-*Kết quả mong đợi:* Toàn bộ 49/49 test cases đạt `PASSED` (kiểm tra smoke test, chất lượng dữ liệu, chống lệch pha, metadata gói Kaggle, cửa sổ trượt, không rò rỉ thời gian, tái lập baseline, mã hóa ảnh 3 kênh, kiến trúc DINOv3, chuẩn hóa REST API và cấu hình an toàn Docker).
+*Kết quả mong đợi:* Toàn bộ 54/54 test cases đạt `PASSED` (kiểm tra smoke test, chất lượng dữ liệu, chống lệch pha, metadata gói Kaggle, cửa sổ trượt, không rò rỉ thời gian, tái lập baseline, mã hóa ảnh 3 kênh, kiến trúc DINOv3, chuẩn hóa REST API, cấu hình Docker và pipeline CI/CD).
 
 ### 4.5 Phát hành và kiểm định gói dữ liệu Kaggle (Bước 1.3)
 ```powershell
@@ -211,6 +211,20 @@ docker run -d --name hanoi-weather-api -p 8000:8000 `
   hanguynthun/hanoi-temperature:v1.0.0
 ```
 *Chi tiết hướng dẫn đẩy Docker Hub và kiểm định máy sạch tại [docs/docker_run.md](docs/docker_run.md).*
+
+### 4.11 Kích Hoạt CI/CD & Xuất Bản PDF Nghiệm Thu (Phase 5)
+```powershell
+# 1. Kích hoạt CI tự động trên GitHub Actions:
+git push origin main
+
+# 2. Phát hành phiên bản mới lên Docker Hub (CD Release):
+git tag -a v1.0.0 -m "Release v1.0.0"
+git push origin v1.0.0
+
+# 3. Biên dịch tài liệu chuyển giao PDF Step-by-Step chất lượng cao:
+python scripts/generate_pdf_guide.py
+```
+*Tài liệu PDF chính thức đã được biên dịch sẵn sàng tại [docs/ci_cd_docker_step_by_step.pdf](docs/ci_cd_docker_step_by_step.pdf).*
 
 ---
 

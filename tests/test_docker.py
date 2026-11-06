@@ -85,3 +85,4 @@ def test_docker_run_documentation_deliverable():
     assert "/health" in content
     assert "/predict" in content
     assert "docker push" in content
+

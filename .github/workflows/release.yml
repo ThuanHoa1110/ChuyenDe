@@ -1,0 +1,99 @@
+name: Continuous Deployment (CD Release)
+
+"on":
+  push:
+    tags:
+      - "v*.*.*"
+      - "v*"
+
+# Enforce least-privilege security permissions
+permissions:
+  contents: read
+
+jobs:
+  pre-release-test:
+    name: Pre-Release Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Test Suite Verification
+        env:
+          PYTHONPATH: .
+          TRANSFORMERS_OFFLINE: "1"
+          HF_HUB_OFFLINE: "1"
+        run: |
+          pytest tests/ -v
+
+  build-and-push:
+    name: Build & Push Docker Hub Release
+    runs-on: ubuntu-latest
+    needs: [pre-release-test]
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
+
+      - name: Extract Docker Metadata (SemVer Tags)
+        id: meta
+        uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
+        with:
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/hanoi-temperature
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest,enable=${{ !contains(github.ref, 'alpha') && !contains(github.ref, 'beta') && !contains(github.ref, 'rc') }}
+
+      - name: Log in to Docker Hub
+        if: ${{ env.DOCKERHUB_CONFIGURED == 'true' }}
+        uses: docker/login-action@343f7c438192407fb14fe04e34cb6ab83c9c923d # v3.0.0
+        env:
+          DOCKERHUB_CONFIGURED: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        id: docker_build
+        uses: docker/build-push-action@4a13e500e05cf64e7086fac08d4fb2f8525b5466 # v5.1.0
+        env:
+          DOCKERHUB_CONFIGURED: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+        with:
+          context: .
+          file: ./Dockerfile
+          push: ${{ env.DOCKERHUB_CONFIGURED == 'true' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Generate GitHub Release Step Summary
+        run: |
+          echo "## 🚀 Docker Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Image Name:** \`${{ secrets.DOCKERHUB_USERNAME }}/hanoi-temperature\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Git Tag:** \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Docker Image Digest:** \`${{ steps.docker_build.outputs.digest }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Generated Tags:**" >> $GITHUB_STEP_SUMMARY
+          for tag in ${{ steps.meta.outputs.tags }}; do
+            echo "  - \`$tag\`" >> $GITHUB_STEP_SUMMARY
+          done
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔄 Rollback Instructions" >> $GITHUB_STEP_SUMMARY
+          echo "To rollback deployment to this exact immutable build, run:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ${{ secrets.DOCKERHUB_USERNAME }}/hanoi-temperature@${{ steps.docker_build.outputs.digest }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
