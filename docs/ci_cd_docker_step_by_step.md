@@ -243,3 +243,4 @@ curl -X POST http://localhost:8000/predict \
 | **Lỗi HTTP 422: `station_ids must contain exactly 6 stations`** | Danh sách trạm bị thiếu hoặc sai thứ tự canonical | Sắp xếp đúng 6 trạm: `st01`, `st02`, `st03`, `st04`, `st05`, `st06`. |
 | **Port 8000 bị xung đột trên host** | Đã có dịch vụ khác chiếm cổng 8000 | Đổi port map trên host, ví dụ `-p 8080:8000` và gọi `http://localhost:8080/health`. |
 | **Cần Rollback phiên bản khẩn cấp** | Phiên bản mới gặp lỗi bất ngờ trên production | Chạy lại image theo digest bất biến trước đó: `docker run ... hanguynthun/hanoi-temperature@sha256:<previous_digest>`. |
+

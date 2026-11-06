@@ -119,3 +119,4 @@ Trong trường hợp phát hiện sự cố sau khi release phiên bản mới 
    ```
 3. **Phát hành bản vá sửa lỗi (Hotfix):**
    Sửa lỗi trên branch `main`, tạo tag mới `v1.0.2` và kích hoạt lại pipeline CD tự động.
+
