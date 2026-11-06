@@ -168,3 +168,4 @@ docker run -d --name test-weather -p 8000:8000 hanguynthun/hanoi-temperature:v1.
 # 3. Kiểm tra health check ngay từ bên ngoài
 curl -f http://localhost:8000/health
 ```
+
