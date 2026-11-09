@@ -44,7 +44,6 @@ COPY --chown=appuser:appgroup src/ /app/src/
 COPY --chown=appuser:appgroup configs/ /app/configs/
 COPY --chown=appuser:appgroup artifacts/ /app/artifacts/
 COPY --chown=appuser:appgroup docs/api_example.json /app/docs/api_example.json
-COPY --chown=appuser:appgroup dinov3_model.py /app/dinov3_model.py
 
 # Switch to non-root user
 USER appuser
