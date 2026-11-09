@@ -13,6 +13,11 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+$venvPython = Join-Path $PSScriptRoot ".venv\Scripts\python.exe"
+if (-not (Test-Path $venvPython)) {
+    $venvPython = "python"
+}
+
 switch ($Command) {
     "setup" {
         & "$PSScriptRoot\scripts\setup.ps1" -Cuda:$Cuda
@@ -37,13 +42,9 @@ switch ($Command) {
         & "$PSScriptRoot\scripts\serve.ps1"
     }
     "inventory" {
-        python "$PSScriptRoot\scripts\inventory_check.py"
+        & $venvPython "$PSScriptRoot\scripts\inventory_check.py"
     }
     "publish-kaggle" {
-        $venvPython = Join-Path $PSScriptRoot ".venv\Scripts\python.exe"
-        if (-not (Test-Path $venvPython)) {
-            $venvPython = "python"
-        }
         if ($DryRun) {
             & $venvPython "$PSScriptRoot\scripts\publish_kaggle.py" --dry-run
         } else {

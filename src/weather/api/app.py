@@ -21,6 +21,10 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, field_validator
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
 from src.weather.data.image import (
     get_canonical_feature_order,
     window_to_3channel_matrix,
@@ -32,7 +36,6 @@ from src.weather.data.window import StandardFeatureScaler
 from src.weather.models.dinov3_forecaster import DINOv3Forecaster
 
 # Resolve base directories
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 DEFAULT_CHECKPOINT_PATH = os.path.join(BASE_DIR, "checkpoints", "dinov3_forecaster_best.pt")
 DEFAULT_SCALER_PATH = os.path.join(BASE_DIR, "artifacts", "scaler.pkl")
 DEFAULT_CONFIG_PATH = os.path.join(BASE_DIR, "configs", "dinov3.yaml")

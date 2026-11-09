@@ -4,13 +4,20 @@ param(
     [string]$Checkpoint = ""
 )
 
-$venvPython = Join-Path $PSScriptRoot "..\.venv\Scripts\python.exe"
+$projectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+Push-Location $projectRoot
+$env:PYTHONPATH = "$projectRoot;$projectRoot\src"
+
+$venvPython = Join-Path $projectRoot ".venv\Scripts\python.exe"
 if (-not (Test-Path $venvPython)) { $venvPython = "python" }
 
 Write-Host "=== Starting Evaluation Pipeline ===" -ForegroundColor Cyan
-if ($Checkpoint -ne "") {
-    & $venvPython -m src.weather.evaluate --config $Config --checkpoint $Checkpoint
-} else {
-    & $venvPython -m src.weather.evaluate --config $Config
+try {
+    if ($Checkpoint -ne "") {
+        & $venvPython -m src.weather.evaluate --config $Config --checkpoint $Checkpoint
+    } else {
+        & $venvPython -m src.weather.evaluate --config $Config
+    }
+} finally {
+    Pop-Location
 }
-

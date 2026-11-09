@@ -22,14 +22,16 @@ import torch
 from torch import nn
 from torch.utils.data import TensorDataset, DataLoader
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
 from src.weather.data.window import split_and_window_dataset, TARGET_STATIONS
 from src.weather.data.image import batch_windows_to_images
 from src.weather.models.dinov3_forecaster import DINOv3_Forecaster
 
 if sys.stdout.encoding.lower() != "utf-8":
     sys.stdout.reconfigure(encoding="utf-8")
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 def compute_sha256(filepath: str) -> str:

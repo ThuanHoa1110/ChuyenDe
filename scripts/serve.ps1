@@ -5,16 +5,23 @@ param(
     [switch]$Reload = $false
 )
 
-$venvPython = Join-Path $PSScriptRoot "..\.venv\Scripts\python.exe"
+$projectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+Push-Location $projectRoot
+$env:PYTHONPATH = "$projectRoot;$projectRoot\src"
+
+$venvPython = Join-Path $projectRoot ".venv\Scripts\python.exe"
 if (-not (Test-Path $venvPython)) { $venvPython = "python" }
 
 Write-Host "=== Launching FastAPI Serving Engine ===" -ForegroundColor Cyan
 Write-Host "Host: $Host | Port: $Port"
 
-$cmd = "$venvPython -m uvicorn src.weather.api.app:app --host $Host --port $Port"
+$cmd = "& `"$venvPython`" -m uvicorn src.weather.api.app:app --host $Host --port $Port"
 if ($Reload) {
     $cmd += " --reload"
 }
 
-Invoke-Expression $cmd
-
+try {
+    Invoke-Expression $cmd
+} finally {
+    Pop-Location
+}

@@ -13,6 +13,10 @@ from datetime import datetime, timezone
 import pandas as pd
 import numpy as np
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
 from src.weather.data.validate import (
     validate_station_df,
     validate_multi_station_sync,
@@ -22,8 +26,6 @@ from src.weather.data.validate import (
 
 if sys.stdout.encoding.lower() != "utf-8":
     sys.stdout.reconfigure(encoding="utf-8")
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
 def compute_sha256(filepath: str) -> str:
