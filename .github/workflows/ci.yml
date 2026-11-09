@@ -91,7 +91,7 @@ jobs:
           TRANSFORMERS_OFFLINE: "1"
           HF_HUB_OFFLINE: "1"
         run: |
-          pytest tests/ -v --durations=10
+          python -m pytest tests/ -v --durations=10
 
   docker-dry-run:
     name: Docker Build Validation (No Push)
