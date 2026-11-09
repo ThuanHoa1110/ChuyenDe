@@ -21,7 +21,8 @@ cache/
 # Data directories (only sample test data is tracked)
 data/raw/
 data/private/
-data/processed/
+data/processed/*
+!data/processed/weather_wide_synced_sample.csv
 release/public/*.csv*
 *.zip
 *.tar.gz
@@ -36,7 +37,8 @@ models_weights/
 *.onnx
 
 # Artifacts & Build outputs
-artifacts/
+artifacts/*
+!artifacts/scaler.pkl
 build/
 dist/
 *.egg-info/
