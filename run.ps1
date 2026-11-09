@@ -6,6 +6,8 @@ param(
 
     [string]$Config = "",
     [string]$Checkpoint = "",
+    [string]$ListenHost = "0.0.0.0",
+    [int]$Port = 8000,
     [switch]$Smoke = $false,
     [switch]$Cuda = $false,
     [switch]$DryRun = $false
@@ -39,7 +41,7 @@ switch ($Command) {
         & "$PSScriptRoot\scripts\evaluate.ps1" @evalArgs
     }
     "serve" {
-        & "$PSScriptRoot\scripts\serve.ps1"
+        & "$PSScriptRoot\scripts\serve.ps1" -ListenHost $ListenHost -Port $Port
     }
     "inventory" {
         & $venvPython "$PSScriptRoot\scripts\inventory_check.py"
