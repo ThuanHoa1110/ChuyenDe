@@ -1,13 +1,7 @@
 """
-PDF Generator for Báo Cáo Bài Thực Hành 2.
-Môn: Chuyên đề Trí tuệ Nhân tạo và Khoa học Dữ liệu (Lớp 65TTNT - ĐH Thủy Lợi)
+Báo Cáo Bài Thực Hành 2 - Chuyên đề TTNT & KHDL (65TTNT - ĐH Thủy Lợi)
 Sinh viên: Nguyễn Thuận Hóa - MSV: 2351260652
-
-Yêu cầu đúng nguyên văn trên bảng của Thầy:
-1. Code thay encoder (hoặc backbone) bằng Dino-v3 -> submit github kèm Readme chỉ chỗ đã update.
-2. Thu thập data private theo đúng luồng hôm trước -> submit link kaggle public.
-3. Code design như buổi 1 kèm model AI đã xuất -> Link deploy hệ thống.
-==> Tổng thể submit file PDF kèm 3 bài (Chỉ tập trung chính xác các Link nghiệm thu).
+Đúng 100% 3 yêu cầu trên bảng, tập trung toàn bộ vào các Link nghiệm thu thực tế.
 """
 
 import os
@@ -51,15 +45,14 @@ class NumberedCanvas(canvas.Canvas):
         self.setFont("Arial", 8)
         self.setFillColor(colors.HexColor("#64748B"))
 
-        # Footer
         self.setStrokeColor(colors.HexColor("#CBD5E1"))
         self.setLineWidth(0.75)
-        self.line(40, 36, A4[0] - 40, 36)
+        self.line(40, 32, A4[0] - 40, 32)
 
-        footer_left = "Khoa CNTT - Đại học Thủy Lợi • Chuyên đề TTNT & KHDL (65TTNT)"
+        footer_left = "Trường ĐH Thủy Lợi • Khoa CNTT • Báo Cáo Thực Hành 2 — Nguyễn Thuận Hóa (2351260652)"
         footer_right = f"Trang {self._pageNumber} / {total_pages}"
-        self.drawString(40, 24, footer_left)
-        self.drawRightString(A4[0] - 40, 24, footer_right)
+        self.drawString(40, 20, footer_left)
+        self.drawRightString(A4[0] - 40, 20, footer_right)
 
         self.restoreState()
 
@@ -85,82 +78,70 @@ def generate_pdf():
         pagesize=A4,
         leftMargin=40,
         rightMargin=40,
-        topMargin=40,
-        bottomMargin=45
+        topMargin=35,
+        bottomMargin=38
     )
 
     styles = getSampleStyleSheet()
 
-    # Custom Typography
     title_style = ParagraphStyle(
         'DocTitle',
         parent=styles['Heading1'],
         fontName='Arial-Bold',
-        fontSize=18,
-        leading=22,
+        fontSize=17,
+        leading=21,
         textColor=colors.HexColor("#0F172A"),
-        spaceAfter=4
+        spaceAfter=3
     )
     subtitle_style = ParagraphStyle(
         'DocSubtitle',
         parent=styles['Normal'],
         fontName='Arial-Bold',
-        fontSize=11,
+        fontSize=10.5,
         leading=14,
-        textColor=colors.HexColor("#2563EB"),
-        spaceAfter=10
+        textColor=colors.HexColor("#0284C7"),
+        spaceAfter=8
     )
     student_style = ParagraphStyle(
         'StudentInfo',
         parent=styles['Normal'],
         fontName='Arial',
-        fontSize=9.5,
-        leading=14,
-        textColor=colors.HexColor("#334155")
+        fontSize=9,
+        leading=13,
+        textColor=colors.HexColor("#1E293B")
     )
     req_title_style = ParagraphStyle(
         'ReqTitle',
         parent=styles['Normal'],
         fontName='Arial-Bold',
-        fontSize=11,
-        leading=15,
+        fontSize=10.5,
+        leading=14,
         textColor=colors.HexColor("#0F172A")
     )
     label_style = ParagraphStyle(
         'ItemLabel',
         parent=styles['Normal'],
         fontName='Arial-Bold',
-        fontSize=9.5,
-        leading=13,
+        fontSize=9,
+        leading=12,
         textColor=colors.HexColor("#1E293B")
     )
     link_style = ParagraphStyle(
         'ItemLink',
         parent=styles['Normal'],
         fontName='Arial-Bold',
-        fontSize=9.5,
-        leading=13,
-        textColor=colors.HexColor("#1D4ED8")
-    )
-    note_style = ParagraphStyle(
-        'ItemNote',
-        parent=styles['Normal'],
-        fontName='Arial',
-        fontSize=8.5,
+        fontSize=9,
         leading=12,
-        textColor=colors.HexColor("#475569")
+        textColor=colors.HexColor("#1D4ED8")
     )
 
     story = []
 
     # Header Box
-    header_html = """
-    <b>TRƯỜNG ĐẠI HỌC THỦY LỢI — KHOA CÔNG NGHỆ THÔNG TIN</b><br/>
-    <b>BỘ MÔN: KHOA HỌC MÁY TÍNH & TRÍ TUỆ NHÂN TẠO</b>
-    """
-    story.append(Paragraph(header_html, student_style))
-    story.append(Spacer(1, 6))
-    story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#0284C7"), spaceAfter=10))
+    story.append(Paragraph("<b>TRƯỜNG ĐẠI HỌC THỦY LỢI — KHOA CÔNG NGHỆ THÔNG TIN</b>", student_style))
+    story.append(Paragraph("<b>BỘ MÔN: KHOA HỌC MÁY TÍNH & TRÍ TUỆ NHÂN TẠO</b>", student_style))
+    story.append(Spacer(1, 4))
+    story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#0284C7"), spaceAfter=8))
 
     story.append(Paragraph("BÁO CÁO NỘP BÀI THỰC HÀNH 2", title_style))
     story.append(Paragraph("HỌC PHẦN: CHUYÊN ĐỀ TRÍ TUỆ NHÂN TẠO VÀ KHOA HỌC DỮ LIỆU (LỚP 65TTNT)", subtitle_style))
@@ -168,33 +149,29 @@ def generate_pdf():
     # Student Info Table
     info_data = [
         [
-            Paragraph("<b>Họ và tên sinh viên:</b> Nguyễn Thuận Hóa", student_style),
-            Paragraph("<b>Mã số sinh viên:</b> 2351260652", student_style)
-        ],
-        [
-            Paragraph("<b>Lớp chuyên ngành:</b> 65TTNT", student_style),
-            Paragraph("<b>Hình thức nghiệm thu:</b> File PDF nộp link theo yêu cầu trên bảng", student_style)
+            Paragraph("<b>Họ và tên:</b> Nguyễn Thuận Hóa", student_style),
+            Paragraph("<b>Mã số sinh viên:</b> 2351260652", student_style),
+            Paragraph("<b>Lớp:</b> 65TTNT", student_style)
         ]
     ]
-    t_info = Table(info_data, colWidths=[270, 245])
+    t_info = Table(info_data, colWidths=[185, 175, 155])
     t_info.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor("#F1F5F9")),
         ('BOX', (0, 0), (-1, -1), 1, colors.HexColor("#CBD5E1")),
-        ('INNERGRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#E2E8F0")),
-        ('TOPPADDING', (0, 0), (-1, -1), 5),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
-        ('LEFTPADDING', (0, 0), (-1, -1), 10),
-        ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+        ('TOPPADDING', (0, 0), (-1, -1), 4),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ('LEFTPADDING', (0, 0), (-1, -1), 8),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 8),
     ]))
     story.append(t_info)
-    story.append(Spacer(1, 14))
+    story.append(Spacer(1, 10))
 
-    # Section 1
+    # YÊU CẦU 1
     story.append(Paragraph("1. Code thay encoder (hoặc backbone) bằng Dino-v3 &rarr; Submit GitHub kèm Readme chỉ chỗ đã update", req_title_style))
-    story.append(Spacer(1, 4))
+    story.append(Spacer(1, 3))
     sec1_data = [
         [
-            Paragraph("<b>GitHub Repository chính thức:</b>", label_style),
+            Paragraph("<b>GitHub Repository:</b>", label_style),
             Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe</u></font>", link_style)
         ],
         [
@@ -202,114 +179,93 @@ def generate_pdf():
             Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe#chỉ-rõ-vị-trí-đã-update-backbone-dino-v3-trước--sau</u></font>", link_style)
         ],
         [
-            Paragraph("<b>Commit Diff thay thế Backbone DINO-v3:</b>", label_style),
+            Paragraph("<b>Commit Diff chỉ rõ vị trí code update:</b>", label_style),
             Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/compare/7601190...e6120a1</u></font>", link_style)
         ],
         [
-            Paragraph("<b>File Model DINO-v3 chính thức:</b>", label_style),
+            Paragraph("<b>File mã nguồn mô hình DINO-v3:</b>", label_style),
             Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/blob/main/src/weather/models/dinov3_forecaster.py</u></font>", link_style)
         ]
     ]
-    t1 = Table(sec1_data, colWidths=[200, 315])
+    t1 = Table(sec1_data, colWidths=[190, 325])
     t1.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor("#FFFFFF")),
         ('BOX', (0, 0), (-1, -1), 1, colors.HexColor("#93C5FD")),
         ('INNERGRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#E2E8F0")),
-        ('TOPPADDING', (0, 0), (-1, -1), 5),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
+        ('TOPPADDING', (0, 0), (-1, -1), 4.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4.5),
         ('LEFTPADDING', (0, 0), (-1, -1), 8),
         ('RIGHTPADDING', (0, 0), (-1, -1), 8),
     ]))
     story.append(t1)
-    story.append(Spacer(1, 14))
+    story.append(Spacer(1, 10))
 
-    # Section 2
+    # YÊU CẦU 2
     story.append(Paragraph("2. Thu thập data private theo đúng luồng hôm trước &rarr; Submit link Kaggle Public", req_title_style))
-    story.append(Spacer(1, 4))
+    story.append(Spacer(1, 3))
     sec2_data = [
         [
             Paragraph("<b>Link Kaggle Public Dataset:</b>", label_style),
             Paragraph("<font color='#1D4ED8'><u>https://www.kaggle.com/datasets/hanguynthun/hanoi-weather-multi-station-benchmark</u></font>", link_style)
         ],
         [
+            Paragraph("<b>Link Kaggle Visualize Dữ liệu (EDA Code):</b>", label_style),
+            Paragraph("<font color='#1D4ED8'><u>https://www.kaggle.com/code/hanguynthun/visualize-datasets-time-series</u></font>", link_style)
+        ],
+        [
             Paragraph("<b>Quy mô dữ liệu (10 năm, 6 trạm Hà Nội):</b>", label_style),
-            Paragraph("<b>6,312,384 dòng</b> (tần số 5 phút, 0% NaN, khóa chính duy nhất)", note_style)
+            Paragraph("6,312,384 dòng (Tần số 5 phút, 0% NaN, khóa chính duy nhất)", student_style)
         ],
         [
-            Paragraph("<b>Mã băm toàn vẹn SHA-256:</b>", label_style),
-            Paragraph("<code>86c672b12bbba2ec0b784a92c01990c0ef497cb7f3f6c82061e88863f68d90ea</code>", note_style)
-        ],
-        [
-            Paragraph("<b>Thẻ mô tả dữ liệu (DATA_CARD):</b>", label_style),
-            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/blob/main/release/public/DATA_CARD.md</u></font>", link_style)
+            Paragraph("<b>File Notebook Visualize trong Repo:</b>", label_style),
+            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/blob/main/notebooks/kaggle_eda_visualization.ipynb</u></font>", link_style)
         ]
     ]
-    t2 = Table(sec2_data, colWidths=[200, 315])
+    t2 = Table(sec2_data, colWidths=[190, 325])
     t2.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor("#FFFFFF")),
         ('BOX', (0, 0), (-1, -1), 1, colors.HexColor("#86EFAC")),
         ('INNERGRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#E2E8F0")),
-        ('TOPPADDING', (0, 0), (-1, -1), 5),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
+        ('TOPPADDING', (0, 0), (-1, -1), 4.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4.5),
         ('LEFTPADDING', (0, 0), (-1, -1), 8),
         ('RIGHTPADDING', (0, 0), (-1, -1), 8),
     ]))
     story.append(t2)
-    story.append(Spacer(1, 14))
+    story.append(Spacer(1, 10))
 
-    # Section 3
+    # YÊU CẦU 3
     story.append(Paragraph("3. Code design như buổi 1 kèm model AI đã xuất &rarr; Link deploy hệ thống", req_title_style))
-    story.append(Spacer(1, 4))
+    story.append(Spacer(1, 3))
     sec3_data = [
         [
             Paragraph("<b>Link Deploy Hệ thống (Web Online 24/7):</b>", label_style),
-            Paragraph("<font color='#1D4ED8' size='10'><b><u>https://thuanhoa1110.github.io/ChuyenDe/</u></b></font>", link_style)
+            Paragraph("<font color='#1D4ED8' size='9.5'><b><u>https://thuanhoa1110.github.io/ChuyenDe/</u></b></font>", link_style)
         ],
         [
             Paragraph("<b>Link Deploy Dự phòng (Vercel Edge):</b>", label_style),
             Paragraph("<font color='#1D4ED8'><u>https://chuyende.vercel.app</u></font>", link_style)
         ],
         [
-            Paragraph("<b>Mã nguồn Giao diện Web (Buổi 1):</b>", label_style),
+            Paragraph("<b>Mã nguồn Giao diện Web (Design Buổi 1):</b>", label_style),
             Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/blob/main/index.html</u></font>", link_style)
         ],
         [
             Paragraph("<b>Model AI đã xuất (PyTorch Checkpoint .pt):</b>", label_style),
             Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/blob/main/checkpoints/dinov3_forecaster_best.pt</u></font>", link_style)
-        ],
-        [
-            Paragraph("<b>Docker Hub Container Serving:</b>", label_style),
-            Paragraph("<font color='#1D4ED8'><u>https://hub.docker.com/r/hanguynthun/hanoi-temperature</u></font>", link_style)
         ]
     ]
-    t3 = Table(sec3_data, colWidths=[200, 315])
+    t3 = Table(sec3_data, colWidths=[190, 325])
     t3.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor("#FFFFFF")),
         ('BOX', (0, 0), (-1, -1), 1, colors.HexColor("#FDE047")),
         ('INNERGRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#E2E8F0")),
-        ('TOPPADDING', (0, 0), (-1, -1), 5),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
+        ('TOPPADDING', (0, 0), (-1, -1), 4.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4.5),
         ('LEFTPADDING', (0, 0), (-1, -1), 8),
         ('RIGHTPADDING', (0, 0), (-1, -1), 8),
     ]))
     story.append(t3)
-    story.append(Spacer(1, 14))
-
-    # Note footer
-    confirm_p = Paragraph(
-        "<b>XÁC NHẬN:</b> Báo cáo tổng hợp đầy đủ và chính xác tất cả các liên kết nộp bài theo đúng 3 yêu cầu trên bảng của Giảng viên.",
-        ParagraphStyle('Confirm', parent=styles['Normal'], fontName='Arial-Bold', fontSize=9, textColor=colors.HexColor("#0F766E"))
-    )
-    t_confirm = Table([[confirm_p]], colWidths=[515])
-    t_confirm.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor("#F0FDFA")),
-        ('BOX', (0, 0), (-1, -1), 1, colors.HexColor("#99F6E4")),
-        ('TOPPADDING', (0, 0), (-1, -1), 6),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
-        ('LEFTPADDING', (0, 0), (-1, -1), 10),
-        ('RIGHTPADDING', (0, 0), (-1, -1), 10),
-    ]))
-    story.append(t_confirm)
 
     doc.build(story, canvasmaker=NumberedCanvas)
     print(f"Successfully generated: {OUTPUT_PDF}")
