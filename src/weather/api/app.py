@@ -19,6 +19,7 @@ import yaml
 import torch
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field, field_validator
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -418,8 +419,11 @@ def validate_prediction_payload(payload: PredictRequest) -> Tuple[np.ndarray, np
 # REST Endpoints
 # ---------------------------------------------------------
 
-@app.get("/", summary="Root Index", include_in_schema=False)
+@app.get("/", summary="Root Web Dashboard", include_in_schema=False)
 def root_index():
+    index_path = os.path.join(BASE_DIR, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path, media_type="text/html")
     return {
         "message": "Hanoi Multi-Station Weather Forecasting API (DINOv3)",
         "docs": "/docs",

@@ -346,9 +346,14 @@ def generate_pdf():
     ))
 
     story.append(Paragraph(
-        "<b>3.3 Hướng dẫn Triển khai & Đường dẫn Deploy Hệ thống:</b><br/>"
-        "• <b>FastAPI Model Serving Engine:</b> Khởi chạy qua lệnh `run.ps1 serve` (Host: `0.0.0.0:8000`). Tài liệu tương tác Swagger UI truy cập trực tiếp tại: <font color='#1E40AF'><b><u>http://localhost:8000/docs</u></b></font>.<br/>"
-        "• <b>Docker Container Serving (1-Click Run):</b> Người dùng có thể kéo image chính thức từ Docker Hub và chạy ngay mà không cần cài đặt môi trường:<br/>"
+        "<b>3.3 Đường dẫn Deploy Hệ thống Chính thức & Triển khai Trực Tuyến:</b><br/>"
+        "• <b>🌐 Đường Dẫn Trang Web Triển Khai Hoàn Chỉnh (GitHub Pages 24/7):</b><br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;👉 <font color='#1E40AF' size='10'><b><u>https://thuanhoa1110.github.io/ChuyenDe/</u></b></font><br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;<i>Đặc điểm nổi bật:</i> Trang web hoạt động trực tuyến 100% độc lập trên mọi thiết bị và trình duyệt (Desktop, Tablet, Mobile) mà người dùng không cần cài đặt bất kỳ môi trường nào. Hỗ trợ đầy đủ bộ công cụ chọn 6 trạm khí tượng (Hoàn Kiếm, Ba Đình, Cầu Giấy, Hà Đông, Đông Anh, Sóc Sơn), chuyển đổi kịch bản thời tiết, trực quan hóa chuỗi thời gian và xuất tệp CSV.<br/>"
+        "• <b>🚀 Đường Dẫn Dự Phòng Cloud Hosting (Vercel Edge):</b><br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;👉 <font color='#1E40AF'><b><u>https://chuyende.vercel.app</u></b></font> (Cấu hình sẵn sàng qua `vercel.json`).<br/>"
+        "• <b>📦 Docker Container Backend Serving (Docker Hub):</b><br/>"
+        "&nbsp;&nbsp;&nbsp;&nbsp;Image chính thức: <font color='#1E40AF'><b>hanguynthun/hanoi-temperature:v1.0.0</b></font><br/>"
         "&nbsp;&nbsp;&nbsp;&nbsp;`docker run -d -p 8000:8000 -v ${PWD}/checkpoints:/app/checkpoints:ro hanguynthun/hanoi-temperature:v1.0.0`<br/>"
         "• <b>Kiểm tra API Suy luận Trực tiếp (cURL Test):</b><br/>"
         "&nbsp;&nbsp;&nbsp;&nbsp;`curl -X POST http://localhost:8000/predict -H 'Content-Type: application/json' -d @docs/api_example.json`<br/>"
