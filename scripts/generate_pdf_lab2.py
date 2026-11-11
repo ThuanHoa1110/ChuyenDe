@@ -243,16 +243,16 @@ def generate_pdf():
             Paragraph("<font color='#1D4ED8' size='9.5'><b><u>https://thuanhoa1110.github.io/ChuyenDe/</u></b></font>", link_style)
         ],
         [
-            Paragraph("<b>Link Deploy Dự phòng (Vercel Edge):</b>", label_style),
-            Paragraph("<font color='#1D4ED8'><u>https://chuyende.vercel.app</u></font>", link_style)
-        ],
-        [
             Paragraph("<b>Mã nguồn Giao diện Web (Design Buổi 1):</b>", label_style),
             Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/blob/main/index.html</u></font>", link_style)
         ],
         [
-            Paragraph("<b>Model AI đã xuất (PyTorch Checkpoint .pt):</b>", label_style),
-            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/blob/main/checkpoints/dinov3_forecaster_best.pt</u></font>", link_style)
+            Paragraph("<b>API Phục vụ Model AI (FastAPI Server):</b>", label_style),
+            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/blob/main/src/weather/api/app.py</u></font>", link_style)
+        ],
+        [
+            Paragraph("<b>Artifact Chuẩn hóa Dữ liệu (Scaler đã xuất):</b>", label_style),
+            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/blob/main/artifacts/scaler.pkl</u></font>", link_style)
         ]
     ]
     t3 = Table(sec3_data, colWidths=[190, 325])

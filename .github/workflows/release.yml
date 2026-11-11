@@ -5,6 +5,12 @@ name: Continuous Deployment (CD Release)
     tags:
       - "v*.*.*"
       - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Docker image version tag (e.g. v1.0.0)"
+        required: true
+        default: "v1.0.0"
 
 # Enforce least-privilege security permissions
 permissions:
@@ -16,17 +22,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Code
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@v4
 
       - name: Set up Python 3.12
-        uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Install Dependencies
+      - name: Cache Pip Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-release-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-release-
+
+      - name: Install Dependencies (CPU)
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install --extra-index-url https://download.pytorch.org/whl/cpu -r requirements.txt
 
       - name: Run Test Suite Verification
         env:
@@ -34,7 +48,7 @@ jobs:
           TRANSFORMERS_OFFLINE: "1"
           HF_HUB_OFFLINE: "1"
         run: |
-          pytest tests/ -v
+          python -m pytest tests/ -v
 
   build-and-push:
     name: Build & Push Docker Hub Release
@@ -42,58 +56,61 @@ jobs:
     needs: [pre-release-test]
     steps:
       - name: Checkout Source Code
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@v4
+
+      - name: Verify Docker Hub Secrets
+        env:
+          DH_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+          DH_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          if [ -z "$DH_USER" ] || [ -z "$DH_TOKEN" ]; then
+            echo "::error::Missing GitHub Secrets DOCKERHUB_USERNAME or DOCKERHUB_TOKEN. Add them in Repo Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
+        uses: docker/setup-buildx-action@v3
 
-      - name: Extract Docker Metadata (SemVer Tags)
-        id: meta
-        uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
-        with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/hanoi-temperature
-          tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=raw,value=latest,enable=${{ !contains(github.ref, 'alpha') && !contains(github.ref, 'beta') && !contains(github.ref, 'rc') }}
+      - name: Resolve Target Image Tags
+        id: resolve
+        run: |
+          REPO="${{ secrets.DOCKERHUB_USERNAME }}/hanoi-temperature"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VER="${{ inputs.tag }}"
+          else
+            VER="${{ github.ref_name }}"
+          fi
+          echo "repo=$REPO" >> $GITHUB_OUTPUT
+          echo "version=$VER" >> $GITHUB_OUTPUT
+          echo "tags=${REPO}:${VER},${REPO}:latest" >> $GITHUB_OUTPUT
 
       - name: Log in to Docker Hub
-        if: ${{ env.DOCKERHUB_CONFIGURED == 'true' }}
-        uses: docker/login-action@343f7c438192407fb14fe04e34cb6ab83c9c923d # v3.0.0
-        env:
-          DOCKERHUB_CONFIGURED: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and Push Docker Image
         id: docker_build
-        uses: docker/build-push-action@4a13e500e05cf64e7086fac08d4fb2f8525b5466 # v5.1.0
-        env:
-          DOCKERHUB_CONFIGURED: ${{ secrets.DOCKERHUB_USERNAME != '' && secrets.DOCKERHUB_TOKEN != '' }}
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
-          push: ${{ env.DOCKERHUB_CONFIGURED == 'true' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          push: true
+          tags: ${{ steps.resolve.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Generate GitHub Release Step Summary
         run: |
-          echo "## 🚀 Docker Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## Docker Release Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Image Name:** \`${{ secrets.DOCKERHUB_USERNAME }}/hanoi-temperature\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Git Tag:** \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Repository:** \`${{ steps.resolve.outputs.repo }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version Tag:** \`${{ steps.resolve.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Docker Image Digest:** \`${{ steps.docker_build.outputs.digest }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Generated Tags:**" >> $GITHUB_STEP_SUMMARY
-          for tag in ${{ steps.meta.outputs.tags }}; do
-            echo "  - \`$tag\`" >> $GITHUB_STEP_SUMMARY
-          done
+          echo "- **Pushed Tags:** \`${{ steps.resolve.outputs.tags }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 🔄 Rollback Instructions" >> $GITHUB_STEP_SUMMARY
-          echo "To rollback deployment to this exact immutable build, run:" >> $GITHUB_STEP_SUMMARY
+          echo "### Rollback Command" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
-          echo "docker pull ${{ secrets.DOCKERHUB_USERNAME }}/hanoi-temperature@${{ steps.docker_build.outputs.digest }}" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ${{ steps.resolve.outputs.repo }}@${{ steps.docker_build.outputs.digest }}" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY

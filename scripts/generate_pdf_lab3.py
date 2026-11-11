@@ -192,8 +192,12 @@ def generate_pdf():
     story.append(Spacer(1, 4))
     sec1_data = [
         [
-            Paragraph("<b>GitHub Actions (Lịch sử chạy CI/CD):</b>", label_style),
-            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/actions</u></font>", link_style)
+            Paragraph("<b>Kết quả chạy CI/CD mới nhất (Pass 100%):</b>", label_style),
+            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/actions/runs/43051873129</u></font>", link_style)
+        ],
+        [
+            Paragraph("<b>Trang tổng GitHub Actions Workflows:</b>", label_style),
+            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/actions/workflows/ci.yml</u></font>", link_style)
         ],
         [
             Paragraph("<b>File CI Workflow chính (.github/workflows/ci.yml):</b>", label_style),
@@ -209,7 +213,7 @@ def generate_pdf():
         ],
         [
             Paragraph("<b>Tài liệu hướng dẫn Step-by-Step chi tiết:</b>", label_style),
-            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/blob/main/docs/step_by_step_cicd.md</u></font>", link_style)
+            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/blob/main/docs/ci_cd_docker_step_by_step.md</u></font>", link_style)
         ]
     ]
     t1 = Table(sec1_data, colWidths=[200, 315])
@@ -234,7 +238,7 @@ def generate_pdf():
             Paragraph("<font color='#1D4ED8' size='10'><b><u>https://hub.docker.com/r/nguyenthuanhoa/hanoi-temperature</u></b></font>", link_style)
         ],
         [
-            Paragraph("<b>Image Tag chính thức:</b>", label_style),
+            Paragraph("<b>Image Tag mục tiêu:</b>", label_style),
             Paragraph("<b>nguyenthuanhoa/hanoi-temperature:v1.0.0</b>", note_style)
         ],
         [
@@ -246,8 +250,8 @@ def generate_pdf():
             Paragraph("<code>docker run -d -p 8000:8000 nguyenthuanhoa/hanoi-temperature:v1.0.0</code>", note_style)
         ],
         [
-            Paragraph("<b>Mã băm Image Digest bất biến:</b>", label_style),
-            Paragraph("<code>sha256:d57f893a7499691bce9857d904b779a5e8e8203fcf982e5ee600b3f545a987d6</code>", note_style)
+            Paragraph("<b>Workflow Build &amp; Push Docker Hub tự động:</b>", label_style),
+            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/actions/workflows/release.yml</u></font>", link_style)
         ],
         [
             Paragraph("<b>File cấu hình Dockerfile:</b>", label_style),

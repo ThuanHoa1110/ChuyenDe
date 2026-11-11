@@ -14,18 +14,18 @@
 | Yêu cầu của Giảng viên trên bảng | Đường dẫn nghiệm thu (URL) | Minh chứng hoàn thành |
 | :--- | :--- | :--- |
 | **1. Code thay encoder (hoặc backbone) bằng DINO-v3**<br/>*(Submit github kèm Readme chỉ chỗ đã update)* | 🔗 **GitHub Repository:** [https://github.com/ThuanHoa1110/ChuyenDe](https://github.com/ThuanHoa1110/ChuyenDe)<br/>🔀 **Commit Diff:** [compare/7601190...e6120a1](https://github.com/ThuanHoa1110/ChuyenDe/compare/7601190...e6120a1) | • Cập nhật `src/weather/models/dinov3_forecaster.py`<br/>• Mã hóa ảnh 3 kênh: `src/weather/data/image.py`<br/>• Bảng đối chiếu chi tiết tại Mục 2 dưới đây. |
-| **2. Thu thập data private theo đúng luồng**<br/>*(Submit link Kaggle public)* | 🌐 **Kaggle Public Dataset:**<br/>[hanoi-weather-multi-station-benchmark](https://www.kaggle.com/datasets/hanguynthun/hanoi-weather-multi-station-benchmark) | • **6,312,384 dòng (10 năm liên tục 6 trạm Hà Nội)**<br/>• Tần số 5 phút, 0% NaN, khóa chính duy nhất<br/>• Thẻ dữ liệu [DATA_CARD.md](release/public/DATA_CARD.md), bản quyền CC-BY-4.0 |
-| **3. Code design như buổi 1 kèm model AI đã xuất**<br/>*(Link deploy hệ thống)* | 🌐 **Web Deploy Trực Tuyến 24/7 (GitHub Pages):**<br/>[https://thuanhoa1110.github.io/ChuyenDe/](https://thuanhoa1110.github.io/ChuyenDe/)<br/>🚀 **Vercel Edge Backup:** [https://chuyende.vercel.app](https://chuyende.vercel.app)<br/>🐳 **Docker Serving:** [nguyenthuanhoa/hanoi-temperature:v1.0.0](https://hub.docker.com/r/nguyenthuanhoa/hanoi-temperature) | • **Giao diện Web hoàn chỉnh 100% chạy online trên mọi thiết bị**<br/>• Trực quan hóa 6 trạm thời tiết Hà Nội, biểu đồ tương tác chuỗi thời gian<br/>• Phân tích XAI biến ngoại sinh, nút tải CSV dự báo<br/>• Checkpoint model AI `.pt` & scaler `.pkl` đã xuất |
-| **📄 TỔNG THỂ BÀI 2 (FILE PDF NỘP BÀI)** | 📑 **[Bao_Cao_Bai_Thuc_Hanh_2.pdf](docs/Bao_Cao_Bai_Thuc_Hanh_2.pdf)** | Báo cáo chi tiết 3 bài kèm hình ảnh và bảng số liệu |
+| **2. Thu thập data private theo đúng luồng**<br/>*(Submit link Kaggle public)* | 🌐 **Kaggle Public Dataset:**<br/>[hanoi-weather-multi-station-benchmark](https://www.kaggle.com/datasets/hanguynthun/hanoi-weather-multi-station-benchmark)<br/>📊 **Kaggle Visualize Notebook:**<br/>[visualize-datasets-time-series](https://www.kaggle.com/code/hanguynthun/visualize-datasets-time-series) | • **6,312,384 dòng (10 năm liên tục 6 trạm Hà Nội)**<br/>• Tần số 5 phút, 0% NaN, khóa chính duy nhất<br/>• 7 biểu đồ EDA đa trạm & TimeXer lead-lag trên Kaggle<br/>• Thẻ dữ liệu [DATA_CARD.md](release/public/DATA_CARD.md), bản quyền CC-BY-4.0 |
+| **3. Code design như buổi 1 kèm model AI đã xuất**<br/>*(Link deploy hệ thống)* | 🌐 **Web Deploy Trực Tuyến 24/7 (GitHub Pages):**<br/>[https://thuanhoa1110.github.io/ChuyenDe/](https://thuanhoa1110.github.io/ChuyenDe/)<br/>🐳 **Docker Serving:** [nguyenthuanhoa/hanoi-temperature](https://hub.docker.com/r/nguyenthuanhoa/hanoi-temperature) | • **Giao diện Web hoàn chỉnh 100% chạy online trên mọi thiết bị**<br/>• Trực quan hóa 6 trạm thời tiết Hà Nội, biểu đồ tương tác chuỗi thời gian<br/>• API dự báo FastAPI ([app.py](src/weather/api/app.py)) & Scaler [scaler.pkl](artifacts/scaler.pkl) đã xuất |
+| **📄 TỔNG THỂ BÀI 2 (FILE PDF NỘP BÀI)** | 📑 **[Bao_Cao_Bai_Thuc_Hanh_2.pdf](docs/Bao_Cao_Bai_Thuc_Hanh_2.pdf)** | Báo cáo tổng hợp đầy đủ các link nộp bài (1 trang gọn) |
 
 ---
 
 ### 🔹 BÀI THỰC HÀNH 3 (MLOps: CI/CD & Docker)
 | Yêu cầu của Giảng viên trên bảng | Đường dẫn nghiệm thu (URL) | Minh chứng hoàn thành |
 | :--- | :--- | :--- |
-| **1. Triển khai CI/CD cho bài toán AI** | ⚙️ **GitHub Actions Actions:**<br/>[https://github.com/ThuanHoa1110/ChuyenDe/actions](https://github.com/ThuanHoa1110/ChuyenDe/actions)<br/>📄 **Workflow:** [.github/workflows/ci.yml](.github/workflows/ci.yml) | • Tự động chạy khi có PR hoặc push nhánh `main`<br/>• Linting `flake8`, Docker build test<br/>• **54/54 bài test Pytest tự động pass 100%** trên CPU offline (không cần GPU hay token) |
-| **2. Build Docker image cho model AI & public lên Docker Hub** | 🐳 **Docker Hub Public Repository:**<br/>[hub.docker.com/r/nguyenthuanhoa/hanoi-temperature](https://hub.docker.com/r/nguyenthuanhoa/hanoi-temperature)<br/>🔖 **Image Digest:** `sha256:d57f893a...` | • Container Non-Root (`appuser` UID 10001)<br/>• Cơ chế runtime mount volume checkpoint an toàn<br/>• Kéo và chạy 1 lệnh trên máy sạch độc lập |
-| **📄 TỔNG THỂ BÀI 3 (FILE PDF STEP-BY-STEP)** | 📑 **[Bao_Cao_Bai_Thuc_Hanh_3.pdf](docs/Bao_Cao_Bai_Thuc_Hanh_3.pdf)** | Hướng dẫn 8 mục Step-by-Step minh họa CI Đỏ/Xanh, Secrets, Push, Pull & Rollback |
+| **1. Triển khai CI/CD cho bài toán AI** | ✅ **Run CI Xanh mới nhất (Pass 100%):**<br/>[actions/runs/43051873129](https://github.com/ThuanHoa1110/ChuyenDe/actions/runs/43051873129)<br/>⚙️ **CI Workflow:** [.github/workflows/ci.yml](.github/workflows/ci.yml) | • Tự động chạy khi có PR hoặc push nhánh `main`<br/>• Linting `flake8`, Docker build test<br/>• **54/54 bài test Pytest tự động pass 100%** trên CPU offline (không cần GPU hay token) |
+| **2. Build Docker image cho model AI & public lên Docker Hub** | 🐳 **Docker Hub Public Repository:**<br/>[hub.docker.com/r/nguyenthuanhoa/hanoi-temperature](https://hub.docker.com/r/nguyenthuanhoa/hanoi-temperature)<br/>🚀 **CD Auto-Push:** [.github/workflows/release.yml](.github/workflows/release.yml) | • Container Non-Root (`appuser` UID 10001)<br/>• Cơ chế runtime mount volume checkpoint an toàn<br/>• Kéo và chạy 1 lệnh trên máy sạch độc lập |
+| **📄 TỔNG THỂ BÀI 3 (FILE PDF STEP-BY-STEP)** | 📑 **[Bao_Cao_Bai_Thuc_Hanh_3.pdf](docs/Bao_Cao_Bai_Thuc_Hanh_3.pdf)** | Báo cáo link nộp bài (1 trang) kèm tài liệu Step-by-Step [ci_cd_docker_step_by_step.md](docs/ci_cd_docker_step_by_step.md) |
 
 ---
 
@@ -198,8 +198,8 @@ ChuyenDe/
   docker build -t nguyenthuanhoa/hanoi-temperature:v1.0.0 .
   ```
 * **Đẩy Image lên Docker Hub công khai (CD Release):**
-  * Tự động hóa qua [.github/workflows/release.yml](.github/workflows/release.yml) với GitHub Secrets.
-  * Image Digest bất biến: `sha256:d57f893a7499691bce9857d904b779a5e8e8203fcf982e5ee600b3f545a987d6`.
+  * Tự động hóa qua [.github/workflows/release.yml](.github/workflows/release.yml) với GitHub Secrets (`DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`).
+  * Digest bất biến được GitHub Actions xuất tự động sau khi hoàn tất release.
   * **Link Docker Hub:** [https://hub.docker.com/r/nguyenthuanhoa/hanoi-temperature](https://hub.docker.com/r/nguyenthuanhoa/hanoi-temperature).
 * **Kiểm định chạy trên máy sạch độc lập (Clean Host Run):**
   ```bash
