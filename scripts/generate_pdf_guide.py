@@ -191,7 +191,7 @@ def build_pdf():
         [Paragraph("Phiên bản Python", style_body), Paragraph("Python 3.12.3 (khóa trong requirements.lock)", style_body), Paragraph("Phụ thuộc cố định", style_body)],
         [Paragraph("Công cụ CI/CD", style_body), Paragraph("GitHub Actions (Runner ubuntu-latest)", style_body), Paragraph("Permissions: contents read", style_body)],
         [Paragraph("Phiên bản Docker", style_body), Paragraph("Docker Engine 26.x / Buildx v3.0", style_body), Paragraph("Chạy Non-Root (appuser)", style_body)],
-        [Paragraph("Docker Hub Repository", style_body), Paragraph("hanguynthun/hanoi-temperature", style_body), Paragraph("Kho lưu trữ Public", style_body)],
+        [Paragraph("Docker Hub Repository", style_body), Paragraph("nguyenthuanhoa/hanoi-temperature", style_body), Paragraph("Kho lưu trữ Public", style_body)],
         [Paragraph("Release Tag / Digest", style_body), Paragraph("v1.0.0 (sha256:8f4c1e0b...)", style_body), Paragraph("Chuẩn Semantic Versioning", style_body)],
         [Paragraph("Kết quả kiểm thử", style_body), Paragraph("<b>49/49 Tests PASSED (100%)</b>", style_body), Paragraph("Kiểm định toàn diện", style_body)]
     ]
@@ -308,7 +308,7 @@ def build_pdf():
         style_body
     ))
     story.append(Paragraph("<b>5.1 Kéo Image từ Docker Hub:</b>", style_h2))
-    story.append(Paragraph("docker pull hanguynthun/hanoi-temperature:v1.0.0", style_code))
+    story.append(Paragraph("docker pull nguyenthuanhoa/hanoi-temperature:v1.0.0", style_code))
 
     story.append(Paragraph("<b>5.2 Khởi chạy Container với Volume Mount Runtime Checkpoint:</b>", style_h2))
     code_docker_run = (
@@ -317,7 +317,7 @@ def build_pdf():
         "  -v \"$(pwd)/checkpoints:/app/checkpoints:ro\" \\\n"
         "  -v \"$(pwd)/artifacts:/app/artifacts:ro\" \\\n"
         "  --restart unless-stopped \\\n"
-        "  hanguynthun/hanoi-temperature:v1.0.0"
+        "  nguyenthuanhoa/hanoi-temperature:v1.0.0"
     )
     story.append(Paragraph(code_docker_run.replace("\n", "<br/>"), style_code))
 

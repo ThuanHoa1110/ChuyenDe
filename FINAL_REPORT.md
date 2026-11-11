@@ -12,7 +12,7 @@ Theo đúng quy định tại Kế hoạch chi tiết, dưới đây là 4 đư�
 | **1. GitHub Repository** | [https://github.com/ThuanHoa1110/ChuyenDe](https://github.com/ThuanHoa1110/ChuyenDe) | Mã nguồn chuẩn hóa, cấu trúc module `src/weather/`, 54 unit tests, tài liệu đầy đủ |
 | **• DINOv3 Diff URL** | [https://github.com/ThuanHoa1110/ChuyenDe/compare/7601190...e6120a1](https://github.com/ThuanHoa1110/ChuyenDe/compare/7601190...e6120a1) | Minh chứng thay thế backbone trong pipeline, đối chiếu "Trước $\rightarrow$ Sau" |
 | **2. Kaggle Dataset** | [https://www.kaggle.com/datasets/hanguynthun/hanoi-weather-multi-station-benchmark](https://www.kaggle.com/datasets/hanguynthun/hanoi-weather-multi-station-benchmark) | Public, có Data Card, metadata CC-BY-4.0, bảng wide 10 năm đã làm sạch |
-| **3. Docker Hub Image** | `hanguynthun/hanoi-temperature:v1.0.0` | Container non-root (`appuser`), checkpoint runtime mount, test inference thành công |
+| **3. Docker Hub Image** | `nguyenthuanhoa/hanoi-temperature:v1.0.0` | Container non-root (`appuser`), checkpoint runtime mount, test inference thành công |
 | **• Image Digest** | `sha256:d57f893a7499691bce9857d904b779a5e8e8203fcf982e5ee600b3f545a987d6` | Khóa phiên bản bất biến phục vụ rollback trên production |
 | **4. PDF Hướng Dẫn CI/CD & Docker** | [https://github.com/ThuanHoa1110/ChuyenDe/blob/main/docs/ci_cd_docker_step_by_step.pdf](https://github.com/ThuanHoa1110/ChuyenDe/blob/main/docs/ci_cd_docker_step_by_step.pdf) | Tài liệu hướng dẫn 8 mục step-by-step, 116 KB, kèm hình ảnh bằng chứng chạy thật |
 
@@ -105,8 +105,8 @@ Dự án được bàn giao trọn gói kèm runner PowerShell [run.ps1](file://
 .\run.ps1 serve
 
 # 7. Đóng gói và chạy Docker Container
-docker build -t hanguynthun/hanoi-temperature:v1.0.0 .
-docker run -d -p 8000:8000 -v "${PWD}/checkpoints:/app/checkpoints:ro" hanguynthun/hanoi-temperature:v1.0.0
+docker build -t nguyenthuanhoa/hanoi-temperature:v1.0.0 .
+docker run -d -p 8000:8000 -v "${PWD}/checkpoints:/app/checkpoints:ro" nguyenthuanhoa/hanoi-temperature:v1.0.0
 ```
 
 ---

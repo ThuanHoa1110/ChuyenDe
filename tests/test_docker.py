@@ -79,7 +79,7 @@ def test_docker_run_documentation_deliverable():
     # Key instructions
     assert "docker build" in content
     assert "docker run" in content
-    assert "hanguynthun/hanoi-temperature:v1.0.0" in content
+    assert "nguyenthuanhoa/hanoi-temperature:v1.0.0" in content
     assert "appuser" in content
     assert "curl" in content
     assert "/health" in content

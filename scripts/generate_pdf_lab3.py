@@ -231,19 +231,19 @@ def generate_pdf():
     sec2_data = [
         [
             Paragraph("<b>Link Docker Hub Public Repository:</b>", label_style),
-            Paragraph("<font color='#1D4ED8' size='10'><b><u>https://hub.docker.com/r/hanguynthun/hanoi-temperature</u></b></font>", link_style)
+            Paragraph("<font color='#1D4ED8' size='10'><b><u>https://hub.docker.com/r/nguyenthuanhoa/hanoi-temperature</u></b></font>", link_style)
         ],
         [
             Paragraph("<b>Image Tag chính thức:</b>", label_style),
-            Paragraph("<b>hanguynthun/hanoi-temperature:v1.0.0</b>", note_style)
+            Paragraph("<b>nguyenthuanhoa/hanoi-temperature:v1.0.0</b>", note_style)
         ],
         [
             Paragraph("<b>Lệnh kéo Docker Image:</b>", label_style),
-            Paragraph("<code>docker pull hanguynthun/hanoi-temperature:v1.0.0</code>", note_style)
+            Paragraph("<code>docker pull nguyenthuanhoa/hanoi-temperature:v1.0.0</code>", note_style)
         ],
         [
             Paragraph("<b>Lệnh khởi chạy Container:</b>", label_style),
-            Paragraph("<code>docker run -d -p 8000:8000 hanguynthun/hanoi-temperature:v1.0.0</code>", note_style)
+            Paragraph("<code>docker run -d -p 8000:8000 nguyenthuanhoa/hanoi-temperature:v1.0.0</code>", note_style)
         ],
         [
             Paragraph("<b>Mã băm Image Digest bất biến:</b>", label_style),
