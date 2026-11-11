@@ -73,25 +73,25 @@ git push origin v1.0.0
 
 Sau khi workflow hoàn tất thành công, GitHub Step Summary sẽ tự động xuất báo cáo chi tiết:
 
-- **Image Repository:** `hanguynthun/hanoi-temperature`
+- **Image Repository:** `nguyenthuanhoa/hanoi-temperature`
 - **Release Tag:** `v1.0.0`
 - **Các tags được sinh tự động:**
-  - `hanguynthun/hanoi-temperature:1.0.0`
-  - `hanguynthun/hanoi-temperature:1.0`
-  - `hanguynthun/hanoi-temperature:latest`
+  - `nguyenthuanhoa/hanoi-temperature:1.0.0`
+  - `nguyenthuanhoa/hanoi-temperature:1.0`
+  - `nguyenthuanhoa/hanoi-temperature:latest`
 - **Immutable Digest (Mã băm bất biến SHA-256):**
   Ví dụ: `sha256:8f4c1e0b3...`
 
 #### Kiểm tra trên máy trạm sạch (Clean Host):
 ```bash
 # Kéo image bằng tag
-docker pull hanguynthun/hanoi-temperature:v1.0.0
+docker pull nguyenthuanhoa/hanoi-temperature:v1.0.0
 
 # Hoặc kéo chính xác bằng digest bất biến
-docker pull hanguynthun/hanoi-temperature@sha256:<digest_hash>
+docker pull nguyenthuanhoa/hanoi-temperature@sha256:<digest_hash>
 
 # Chạy container kiểm tra
-docker run -d --name test-hanoi-api -p 8000:8000 hanguynthun/hanoi-temperature:v1.0.0
+docker run -d --name test-hanoi-api -p 8000:8000 nguyenthuanhoa/hanoi-temperature:v1.0.0
 curl -f http://localhost:8000/health
 ```
 
@@ -115,7 +115,7 @@ Trong trường hợp phát hiện sự cố sau khi release phiên bản mới 
      -v "$(pwd)/checkpoints:/app/checkpoints:ro" \
      -v "$(pwd)/artifacts:/app/artifacts:ro" \
      --restart unless-stopped \
-     hanguynthun/hanoi-temperature:v1.0.0
+     nguyenthuanhoa/hanoi-temperature:v1.0.0
    ```
 3. **Phát hành bản vá sửa lỗi (Hotfix):**
    Sửa lỗi trên branch `main`, tạo tag mới `v1.0.2` và kích hoạt lại pipeline CD tự động.

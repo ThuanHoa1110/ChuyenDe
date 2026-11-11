@@ -22,12 +22,12 @@ Tại thư mục gốc của repository, thực hiện lệnh:
 
 ```bash
 # Build image với tag chuẩn hóa
-docker build -t hanguynthun/hanoi-temperature:v1.0.0 .
+docker build -t nguyenthuanhoa/hanoi-temperature:v1.0.0 .
 ```
 
 *Ghi chú cho Windows PowerShell:*
 ```powershell
-docker build -t hanguynthun/hanoi-temperature:v1.0.0 .
+docker build -t nguyenthuanhoa/hanoi-temperature:v1.0.0 .
 ```
 
 #### Bước 2.2: Kiểm tra bảo mật & người dùng Non-Root
@@ -35,10 +35,10 @@ Trước khi triển khai, kiểm tra quyền thực thi bên trong container:
 
 ```bash
 # Kiểm tra user thực thi (kết quả mong đợi: appuser)
-docker run --rm hanguynthun/hanoi-temperature:v1.0.0 whoami
+docker run --rm nguyenthuanhoa/hanoi-temperature:v1.0.0 whoami
 
 # Kiểm tra UID / GID (kết quả mong đợi: uid=10001(appuser) gid=10001(appgroup))
-docker run --rm hanguynthun/hanoi-temperature:v1.0.0 id
+docker run --rm nguyenthuanhoa/hanoi-temperature:v1.0.0 id
 ```
 
 #### Bước 2.3: Quét lịch sử layer & chống rò rỉ credential
@@ -46,10 +46,10 @@ Kiểm tra toàn bộ các layer để xác nhận không chứa file nhạy c�
 
 ```bash
 # Liệt kê các command trong layer image
-docker history --no-trunc hanguynthun/hanoi-temperature:v1.0.0
+docker history --no-trunc nguyenthuanhoa/hanoi-temperature:v1.0.0
 
 # Kiểm tra không tồn tại file .env hoặc private data trong container
-docker run --rm hanguynthun/hanoi-temperature:v1.0.0 ls -la /app
+docker run --rm nguyenthuanhoa/hanoi-temperature:v1.0.0 ls -la /app
 ```
 
 #### Bước 2.4: Khởi chạy Container với Runtime Volume Mount
@@ -63,7 +63,7 @@ docker run -d \
   -v "$(pwd)/checkpoints:/app/checkpoints:ro" \
   -v "$(pwd)/artifacts:/app/artifacts:ro" \
   --restart unless-stopped \
-  hanguynthun/hanoi-temperature:v1.0.0
+  nguyenthuanhoa/hanoi-temperature:v1.0.0
 ```
 
 **Trên Windows PowerShell:**
@@ -74,7 +74,7 @@ docker run -d `
   -v "${PWD}/checkpoints:/app/checkpoints:ro" `
   -v "${PWD}/artifacts:/app/artifacts:ro" `
   --restart unless-stopped `
-  hanguynthun/hanoi-temperature:v1.0.0
+  nguyenthuanhoa/hanoi-temperature:v1.0.0
 ```
 
 ---
@@ -145,11 +145,11 @@ Khi bạn muốn xuất bản image lên Docker Hub công khai:
 docker login -u hanguynthun
 
 # 2. Đẩy image lên Docker Hub
-docker push hanguynthun/hanoi-temperature:v1.0.0
+docker push nguyenthuanhoa/hanoi-temperature:v1.0.0
 
 # 3. Gắn thêm tag latest và đẩy
-docker tag hanguynthun/hanoi-temperature:v1.0.0 hanguynthun/hanoi-temperature:latest
-docker push hanguynthun/hanoi-temperature:latest
+docker tag nguyenthuanhoa/hanoi-temperature:v1.0.0 nguyenthuanhoa/hanoi-temperature:latest
+docker push nguyenthuanhoa/hanoi-temperature:latest
 ```
 
 ---
@@ -160,10 +160,10 @@ Trên một máy tính sạch bất kỳ có cài đặt Docker (không cần cl
 
 ```bash
 # 1. Kéo image public từ Docker Hub
-docker pull hanguynthun/hanoi-temperature:v1.0.0
+docker pull nguyenthuanhoa/hanoi-temperature:v1.0.0
 
 # 2. Khởi chạy image
-docker run -d --name test-weather -p 8000:8000 hanguynthun/hanoi-temperature:v1.0.0
+docker run -d --name test-weather -p 8000:8000 nguyenthuanhoa/hanoi-temperature:v1.0.0
 
 # 3. Kiểm tra health check ngay từ bên ngoài
 curl -f http://localhost:8000/health

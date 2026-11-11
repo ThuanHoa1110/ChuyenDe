@@ -15,7 +15,7 @@
 | **Phiên bản Python** | Python 3.12.3 (`.venv`) | Cố định phụ thuộc trong `requirements.lock` |
 | **Công cụ CI/CD** | GitHub Actions (Runner `ubuntu-latest`) | Permissions tối thiểu `contents: read` |
 | **Phiên bản Docker** | Docker Engine 26.x / Docker Buildx v3.0 | Kiến trúc Non-Root `appuser` (UID 10001) |
-| **Docker Hub Repository** | `hanguynthun/hanoi-temperature` | Image công khai (Public Image) |
+| **Docker Hub Repository** | `nguyenthuanhoa/hanoi-temperature` | Image công khai (Public Image) |
 | **Release Tag** | `v1.0.0` | Semantic Versioning chuẩn |
 | **Image Digest** | `sha256:8f4c1e0b3d...` | Mã băm bất biến trên Docker Hub |
 | **Commit Git kiểm định** | `3dfd766` | Branch `main` |
@@ -142,7 +142,7 @@ Người nghiệm thu (Reviewer) hoặc kỹ sư vận hành có thể tái hi�
 
 ### Bước 5.1: Kéo image từ Docker Hub
 ```bash
-docker pull hanguynthun/hanoi-temperature:v1.0.0
+docker pull nguyenthuanhoa/hanoi-temperature:v1.0.0
 ```
 
 ### Bước 5.2: Khởi chạy Container với Volume Mount
@@ -156,7 +156,7 @@ docker run -d \
   -v "$(pwd)/checkpoints:/app/checkpoints:ro" \
   -v "$(pwd)/artifacts:/app/artifacts:ro" \
   --restart unless-stopped \
-  hanguynthun/hanoi-temperature:v1.0.0
+  nguyenthuanhoa/hanoi-temperature:v1.0.0
 ```
 
 **Trên Windows PowerShell:**
@@ -167,7 +167,7 @@ docker run -d `
   -v "${PWD}/checkpoints:/app/checkpoints:ro" `
   -v "${PWD}/artifacts:/app/artifacts:ro" `
   --restart unless-stopped `
-  hanguynthun/hanoi-temperature:v1.0.0
+  nguyenthuanhoa/hanoi-temperature:v1.0.0
 ```
 
 ### Bước 5.3: Kiểm tra người dùng Non-Root
@@ -242,5 +242,5 @@ curl -X POST http://localhost:8000/predict \
 | **Lỗi HTTP 422: `timestamps must contain exactly 72 timesteps`** | Payload gửi lên không đủ 72 mốc thời gian (lookback 6 giờ) | Đảm bảo mảng `timestamps` và dữ liệu chuỗi có đúng 72 phần tử với chu kỳ 5 phút. |
 | **Lỗi HTTP 422: `station_ids must contain exactly 6 stations`** | Danh sách trạm bị thiếu hoặc sai thứ tự canonical | Sắp xếp đúng 6 trạm: `st01`, `st02`, `st03`, `st04`, `st05`, `st06`. |
 | **Port 8000 bị xung đột trên host** | Đã có dịch vụ khác chiếm cổng 8000 | Đổi port map trên host, ví dụ `-p 8080:8000` và gọi `http://localhost:8080/health`. |
-| **Cần Rollback phiên bản khẩn cấp** | Phiên bản mới gặp lỗi bất ngờ trên production | Chạy lại image theo digest bất biến trước đó: `docker run ... hanguynthun/hanoi-temperature@sha256:<previous_digest>`. |
+| **Cần Rollback phiên bản khẩn cấp** | Phiên bản mới gặp lỗi bất ngờ trên production | Chạy lại image theo digest bất biến trước đó: `docker run ... nguyenthuanhoa/hanoi-temperature@sha256:<previous_digest>`. |
 
