@@ -193,7 +193,7 @@ def generate_pdf():
     sec1_data = [
         [
             Paragraph("<b>Kết quả chạy CI/CD mới nhất (Pass 100%):</b>", label_style),
-            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/actions/runs/43051873129</u></font>", link_style)
+            Paragraph("<font color='#1D4ED8'><u>https://github.com/ThuanHoa1110/ChuyenDe/actions/runs/43539077765</u></font>", link_style)
         ],
         [
             Paragraph("<b>Trang tổng GitHub Actions Workflows:</b>", label_style),

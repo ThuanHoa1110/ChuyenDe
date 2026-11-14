@@ -23,7 +23,7 @@
 ### 🔹 BÀI THỰC HÀNH 3 (MLOps: CI/CD & Docker)
 | Yêu cầu của Giảng viên trên bảng | Đường dẫn nghiệm thu (URL) | Minh chứng hoàn thành |
 | :--- | :--- | :--- |
-| **1. Triển khai CI/CD cho bài toán AI** | ✅ **Run CI Xanh mới nhất (Pass 100%):**<br/>[actions/runs/43051873129](https://github.com/ThuanHoa1110/ChuyenDe/actions/runs/43051873129)<br/>⚙️ **CI Workflow:** [.github/workflows/ci.yml](.github/workflows/ci.yml) | • Tự động chạy khi có PR hoặc push nhánh `main`<br/>• Linting `flake8`, Docker build test<br/>• **54/54 bài test Pytest tự động pass 100%** trên CPU offline (không cần GPU hay token) |
+| **1. Triển khai CI/CD cho bài toán AI** | ✅ **Run CI Xanh mới nhất (Pass 100%):**<br/>[actions/runs/43539077765](https://github.com/ThuanHoa1110/ChuyenDe/actions/runs/43539077765)<br/>⚙️ **CI Workflow:** [.github/workflows/ci.yml](.github/workflows/ci.yml) | • Tự động chạy khi có PR hoặc push nhánh `main`<br/>• Linting `flake8`, Docker build test<br/>• **54/54 bài test Pytest tự động pass 100%** trên CPU offline (không cần GPU hay token) |
 | **2. Build Docker image cho model AI & public lên Docker Hub** | 🐳 **Docker Hub Public Repository:**<br/>[hub.docker.com/r/nguyenthuanhoa/hanoi-temperature](https://hub.docker.com/r/nguyenthuanhoa/hanoi-temperature)<br/>🚀 **CD Auto-Push:** [.github/workflows/release.yml](.github/workflows/release.yml) | • Container Non-Root (`appuser` UID 10001)<br/>• Cơ chế runtime mount volume checkpoint an toàn<br/>• Kéo và chạy 1 lệnh trên máy sạch độc lập |
 | **📄 TỔNG THỂ BÀI 3 (FILE PDF STEP-BY-STEP)** | 📑 **[Bao_Cao_Bai_Thuc_Hanh_3.pdf](docs/Bao_Cao_Bai_Thuc_Hanh_3.pdf)** | Báo cáo link nộp bài (1 trang) kèm tài liệu Step-by-Step [ci_cd_docker_step_by_step.md](docs/ci_cd_docker_step_by_step.md) |
 
