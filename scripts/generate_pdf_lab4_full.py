@@ -125,7 +125,7 @@ def make_code_box(code_text, styles, font_size=7.2, leading=9.0):
     ]))
     return t
 
-def make_cases_table(rows, styles, col_widths=[24, 110, 133, 38, 182]):
+def make_cases_table(rows, styles, col_widths=[30, 110, 128, 44, 175]):
     data = [[
         Paragraph("STT", styles["TableCellCenter"]),
         Paragraph("Trường hợp", styles["TableCell"]),
@@ -148,8 +148,8 @@ def make_cases_table(rows, styles, col_widths=[24, 110, 133, 38, 182]):
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
         ('TOPPADDING', (0,0), (-1,-1), 2.0),
         ('BOTTOMPADDING', (0,0), (-1,-1), 2.0),
-        ('LEFTPADDING', (0,0), (-1,-1), 3.0),
-        ('RIGHTPADDING', (0,0), (-1,-1), 3.0),
+        ('LEFTPADDING', (0,0), (-1,-1), 2.5),
+        ('RIGHTPADDING', (0,0), (-1,-1), 2.5),
     ]))
     return t
 
@@ -172,7 +172,7 @@ def generate_pdf():
 
     styles = getSampleStyleSheet()
 
-    # Exact Typography matching the sample
+    # Exact Typography matching request: Chapter 14pt, All else 13pt
     styles.add(ParagraphStyle(
         "CoverTitle",
         fontName="TimesNewRoman-Bold",
@@ -184,16 +184,16 @@ def generate_pdf():
     styles.add(ParagraphStyle(
         "CoverAuthor",
         fontName="TimesNewRoman",
-        fontSize=12,
-        leading=16,
+        fontSize=13,
+        leading=17,
         alignment=1
     ))
     styles.add(ParagraphStyle(
         "ChapterHeading",
         fontName="TimesNewRoman-Bold",
-        fontSize=13,
-        leading=17,
-        alignment=1, # Centered like sample
+        fontSize=14,
+        leading=18,
+        alignment=1, # Centered
         spaceBefore=0,
         spaceAfter=8,
         keepWithNext=True
@@ -201,8 +201,8 @@ def generate_pdf():
     styles.add(ParagraphStyle(
         "SectionHeading",
         fontName="TimesNewRoman-Bold",
-        fontSize=11.5,
-        leading=15,
+        fontSize=13,
+        leading=16.5,
         spaceBefore=6,
         spaceAfter=4,
         keepWithNext=True
@@ -210,8 +210,8 @@ def generate_pdf():
     styles.add(ParagraphStyle(
         "TableCaption",
         fontName="TimesNewRoman",
-        fontSize=10,
-        leading=13,
+        fontSize=13,
+        leading=16,
         alignment=1, # Centered
         spaceBefore=5,
         spaceAfter=3,
@@ -220,8 +220,8 @@ def generate_pdf():
     styles.add(ParagraphStyle(
         "FigureCaption",
         fontName="TimesNewRoman",
-        fontSize=10,
-        leading=13,
+        fontSize=13,
+        leading=16,
         alignment=1, # Centered
         spaceBefore=3,
         spaceAfter=5
@@ -229,22 +229,22 @@ def generate_pdf():
     styles.add(ParagraphStyle(
         "BodyJustify",
         fontName="TimesNewRoman",
-        fontSize=10.5,
-        leading=14.5,
+        fontSize=13,
+        leading=16.5,
         alignment=4, # Justify
         spaceAfter=5
     ))
     styles.add(ParagraphStyle(
         "TableCell",
         fontName="TimesNewRoman",
-        fontSize=8.5,
-        leading=11
+        fontSize=13,
+        leading=15.5
     ))
     styles.add(ParagraphStyle(
         "TableCellCenter",
         fontName="TimesNewRoman",
-        fontSize=8.5,
-        leading=11,
+        fontSize=13,
+        leading=15.5,
         alignment=1
     ))
 
