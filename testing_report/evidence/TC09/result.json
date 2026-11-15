@@ -1,0 +1,26 @@
+{
+  "test_id": "TC09",
+  "verdict": "PASS",
+  "scenarios": [
+    {
+      "scenario": "S1 Connection Timeout",
+      "code": 503,
+      "status": "PASS"
+    },
+    {
+      "scenario": "S2 Upstream HTTP 502 Bad Gateway",
+      "code": 502,
+      "status": "PASS"
+    },
+    {
+      "scenario": "S3 External API Rate Limited 429",
+      "code": 429,
+      "status": "PASS"
+    },
+    {
+      "scenario": "S4 Service Recovery Check",
+      "code": 200,
+      "status": "PASS"
+    }
+  ]
+}

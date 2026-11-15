@@ -1,0 +1,8 @@
+{
+  "test_id": "AT09",
+  "verdict": "FAIL",
+  "peak_rss_mb": 780,
+  "peak_cpu_percent": 98.4,
+  "vulnerability": "Synchronous CPU forward-pass blocks event loop during heavy loads, leading to denial of service for concurrent users.",
+  "remediation": "Offload model inference to an asynchronous worker queue (Celery/Redis) with concurrency throttle."
+}

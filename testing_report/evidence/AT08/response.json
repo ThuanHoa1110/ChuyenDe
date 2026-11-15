@@ -1,0 +1,24 @@
+{
+  "test_id": "AT08",
+  "verdict": "FAIL",
+  "findings": [
+    [
+      "GET /metadata?config=../../.env",
+      404
+    ],
+    [
+      "GET /static/%2e%2e%2f%2e%2e%2fetc/passwd",
+      404
+    ],
+    [
+      "POST /predict with station_id='st99_malicious'",
+      422
+    ],
+    [
+      "POST /predict without API token (Unauthenticated public call)",
+      200
+    ]
+  ],
+  "vulnerability": "Endpoints lack authentication headers (Bearer token / API key) allowing unrestricted access.",
+  "remediation": "Add API Key security dependency (Depends(get_api_key)) and rate limiting per client."
+}

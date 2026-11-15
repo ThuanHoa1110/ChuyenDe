@@ -1,0 +1,24 @@
+{
+  "test_id": "AT10",
+  "verdict": "FAIL",
+  "tamper_cases": [
+    [
+      "T_zero (0 timesteps)",
+      422
+    ],
+    [
+      "Shape mismatch [3, 60] instead of [3, 66, 72]",
+      422
+    ],
+    [
+      "Negative solar radiation values (-500 W/m2)",
+      200
+    ],
+    [
+      "Apparent humidity 250% (> 100%)",
+      200
+    ]
+  ],
+  "vulnerability": "Negative solar radiation and humidity >100% bypass checks and contaminate feature space.",
+  "remediation": "Add Pydantic field validators with physical bounds: humidity in [0, 100], solar_rad in [0, 1500]."
+}

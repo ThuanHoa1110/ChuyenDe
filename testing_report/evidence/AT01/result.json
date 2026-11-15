@@ -1,0 +1,6 @@
+{
+  "test_id": "AT01",
+  "verdict": "FAIL",
+  "vulnerability": "Permissive Pydantic configuration accepts extra injected keys and implicitly coerces strings into numbers.",
+  "remediation": "Configure model_config = ConfigDict(strict=True, extra='forbid') on all input DTOs."
+}

@@ -1,0 +1,30 @@
+{
+  "test_id": "TC06",
+  "verdict": "PASS",
+  "noise_sweep": [
+    {
+      "sigma": 0.0,
+      "mean_mae": 0.0
+    },
+    {
+      "sigma": 0.05,
+      "mean_mae": 0.0
+    },
+    {
+      "sigma": 0.1,
+      "mean_mae": 0.0
+    },
+    {
+      "sigma": 0.2,
+      "mean_mae": 0.0
+    },
+    {
+      "sigma": 0.5,
+      "mean_mae": 0.0011
+    },
+    {
+      "sigma": 1.0,
+      "mean_mae": 0.0028
+    }
+  ]
+}

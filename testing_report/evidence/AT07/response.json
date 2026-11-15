@@ -1,0 +1,6 @@
+{
+  "test_id": "AT07",
+  "verdict": "FAIL",
+  "vulnerability": "Unsanitized NaN serialization in Python JSON engine bubbles up as unhandled HTTP 500 error instead of clean 422.",
+  "remediation": "Enforce strict JSON decoder hook rejecting NaN/Infinity before FastAPI model validation."
+}

@@ -1,0 +1,15 @@
+{
+  "test_id": "TC03",
+  "verdict": "PASS",
+  "status_code": 200,
+  "e2e_latency_ms": 88.38,
+  "server_latency_ms": 81.37,
+  "predictions": {
+    "st01_hoankiem": 17.72,
+    "st02_badinh": 16.96,
+    "st03_caugiay": 17.29,
+    "st04_hadong": 16.5,
+    "st05_donganh": 15.93,
+    "st06_socson": 15.1
+  }
+}

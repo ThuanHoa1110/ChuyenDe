@@ -1,0 +1,10 @@
+{
+  "endpoints": [
+    "/health",
+    "/metadata",
+    "/",
+    "/openapi.json",
+    "/docs"
+  ],
+  "trials_per_ep": 3
+}

@@ -1,0 +1,19 @@
+{
+  "status": "success",
+  "model_version": "v1.0.0",
+  "data_version": "v1.0.0",
+  "end_timestamp": "2016-01-01 05:55:00",
+  "horizon_steps": 12,
+  "horizon_minutes": 60,
+  "target_timestamp": "2016-01-01T06:55:00",
+  "predictions": {
+    "st01_hoankiem": 17.72,
+    "st02_badinh": 16.96,
+    "st03_caugiay": 17.29,
+    "st04_hadong": 16.5,
+    "st05_donganh": 15.93,
+    "st06_socson": 15.1
+  },
+  "units": "°C",
+  "latency_ms": 81.37
+}

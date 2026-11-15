@@ -1,0 +1,28 @@
+{
+  "test_id": "AT06",
+  "verdict": "FAIL",
+  "synthetic_experiments": [
+    [
+      "all_zeros",
+      21.84,
+      0.98
+    ],
+    [
+      "all_max_constant_10000",
+      22.45,
+      0.99
+    ],
+    [
+      "uniform_white_noise",
+      21.9,
+      0.97
+    ],
+    [
+      "permuted_feature_channels",
+      24.12,
+      0.95
+    ]
+  ],
+  "vulnerability": "Model lacks out-of-distribution detection; hallucinates standard room temperature on meaningless inputs.",
+  "remediation": "Integrate Mahalanobis distance / energy-based OOD detector on ViT latent embeddings."
+}

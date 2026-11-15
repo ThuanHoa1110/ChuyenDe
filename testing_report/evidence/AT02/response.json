@@ -1,0 +1,8 @@
+{
+  "test_id": "AT02",
+  "verdict": "FAIL",
+  "payload_size_bytes": 6291456,
+  "status_code": 200,
+  "vulnerability": "No maximum payload body size limit enforced at FastAPI middleware level.",
+  "remediation": "Implement RequestSizeLimitMiddleware with 1 MB threshold and 413 Payload Too Large response."
+}

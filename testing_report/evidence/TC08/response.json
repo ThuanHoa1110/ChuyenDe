@@ -1,0 +1,7 @@
+{
+  "test_id": "TC08",
+  "verdict": "FAIL",
+  "input_extreme_temp": 46.5,
+  "model_output_mean": 16.09,
+  "vulnerability": "Model suffers from overconfidence on OOD climate events, regressing towards training mean without uncertainty indication."
+}

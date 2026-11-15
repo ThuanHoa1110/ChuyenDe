@@ -1,0 +1,18 @@
+{
+  "persistence": {
+    "macro_mae": 1.0025,
+    "macro_rmse": 1.0689
+  },
+  "ridge_regression": {
+    "macro_mae": 0.2185,
+    "macro_rmse": 0.2712
+  },
+  "lightgbm": {
+    "macro_mae": 0.2357,
+    "macro_rmse": 0.2921
+  },
+  "dinov3_forecaster": {
+    "macro_mae": 0.2241,
+    "macro_rmse": 0.2814
+  }
+}

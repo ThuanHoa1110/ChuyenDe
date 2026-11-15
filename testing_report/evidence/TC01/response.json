@@ -1,0 +1,10 @@
+{
+  "status": "healthy",
+  "uptime_seconds": 8.46,
+  "model_loaded": true,
+  "model_name": "DINOv3Forecaster",
+  "model_checkpoint": "dinov3_forecaster_best.pt",
+  "scaler_loaded": true,
+  "device": "cpu",
+  "timestamp": "2026-11-15T10:20:45.984199+00:00"
+}

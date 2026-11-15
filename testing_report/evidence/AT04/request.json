@@ -1,0 +1,7 @@
+{
+  "attack_methods": [
+    "FGSM",
+    "PGD",
+    "Random"
+  ]
+}

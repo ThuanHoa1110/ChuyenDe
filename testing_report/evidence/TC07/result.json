@@ -1,0 +1,26 @@
+{
+  "test_id": "TC07",
+  "verdict": "PASS",
+  "dropout_results": [
+    {
+      "drop_rate": 0.0,
+      "mae": 0.0,
+      "status": "exact"
+    },
+    {
+      "drop_rate": 0.1,
+      "mae": 0.2717,
+      "status": "recovered"
+    },
+    {
+      "drop_rate": 0.25,
+      "mae": 1.285,
+      "status": "recovered"
+    },
+    {
+      "drop_rate": 0.5,
+      "mae": 1.8117,
+      "status": "recovered"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "test_id": "AT05",
+  "verdict": "FAIL",
+  "variants": [
+    [
+      "clean",
+      0.0
+    ],
+    [
+      "reverse_timesteps",
+      4.25
+    ],
+    [
+      "shuffle_timesteps",
+      5.1
+    ],
+    [
+      "clock_drift_-60m",
+      1.85
+    ],
+    [
+      "clock_drift_+60m",
+      1.72
+    ],
+    [
+      "duplicate_first_step",
+      6.3
+    ]
+  ],
+  "vulnerability": "If attacker keeps monotonic timestamps while shuffling internal feature rows, API accepts payload without physical plausibility check.",
+  "remediation": "Implement Maximum Delta Rate-of-Change checks across successive 5-min steps (e.g. max 3°C change per 5 min)."
+}

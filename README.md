@@ -29,6 +29,15 @@
 
 ---
 
+### 🔹 BÀI THỰC HÀNH 4 (Kiểm thử & Tấn công Hệ thống AI)
+| Yêu cầu của Giảng viên trên bảng | Đường dẫn nghiệm thu (URL) | Minh chứng hoàn thành |
+| :--- | :--- | :--- |
+| **1. Xây dựng 10 test case để kiểm thử hệ thống AI**<br/>*(Automation test, AI test, Mock test — test cả API & system)* | 📂 **Thư mục kịch bản:**<br/>[`testing_report/scripts/`](testing_report/scripts/)<br/>📊 **Thư mục minh chứng & Logs:**<br/>[`testing_report/evidence/`](testing_report/evidence/) | • **TC01–TC04 (Automation Tests):** Health check, input validation (V1 + 9 negative), luồng dự báo E2E 6 trạm Hà Nội, tính toàn vẹn và tất định.<br/>• **TC05–TC08 (AI Tests):** Benchmark Macro MAE (0.2241°C), độ bền trước nhiễu Gauss, tính nhất quán khi mất dữ liệu thời gian (dropout), hành vi OOD cực đoan.<br/>• **TC09–TC10 (Mock Tests):** Giả lập lỗi API cảm biến ngoài (502/503), lỗi suy luận & từ chối checkpoint bị sửa SHA-256. |
+| **2. Xây dựng 10 test case để tấn công hệ thống AI**<br/>*(Nghĩa là 10 loại tấn công khác nhau)* | 🎯 **Runner tổng hợp:**<br/>[`testing_report/run_all.py`](testing_report/run_all.py)<br/>📈 **Biểu đồ tấn công:**<br/>[`testing_report/evidence/charts/`](testing_report/evidence/charts/) | • **10 hình thức tấn công độc lập (AT01–AT10):**<br/>1. Malformed schema / type juggling<br/>2. Oversized payload & DoS 6 MiB<br/>3. API query flooding (200 requests concurrent)<br/>4. Adversarial perturbation (FGSM / PGD white-box)<br/>5. Temporal manipulation / clock drift<br/>6. Out-of-distribution synthetic injection<br/>7. Invalid numerics (NaN / Infinity injection)<br/>8. Parameter tampering / path traversal<br/>9. Resource exhaustion via long-horizon forecast<br/>10. Tensor shape & physical boundary tampering |
+| **📄 TỔNG THỂ BÀI 4 (BÁO CÁO PDF NỘP BÀI)** | 📑 **[Bao_Cao_Thuc_Hanh_Chuyen_De_Buoi_4.pdf](docs/Bao_Cao_Thuc_Hanh_Chuyen_De_Buoi_4.pdf)** | Báo cáo học thuật toàn diện (27 trang chuẩn A4) theo mẫu chuẩn, chi tiết 20 test case, bảng đặc tả, log execution, bảng tham số JSON, biểu đồ và 8 lỗi phát hiện. |
+
+---
+
 ## 🏗️ 1. CẤU TRÚC KHO LƯU TRỮ CHUẨN HÓA (CLEAN REPO STRUCTURE)
 
 Kho lưu trữ đã được tổ chức lại hoàn toàn tinh gọn, loại bỏ toàn bộ mã nguồn rác từ bài báo cũ, tuân thủ 100% chuẩn công nghiệp MLOps:
