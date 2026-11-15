@@ -3,7 +3,7 @@
 
 > **Học phần:** Chuyên đề Trí tuệ Nhân tạo và Khoa học Dữ liệu (Lớp 65TTNT)  
 > **Khoa Công nghệ Thông tin — Trường Đại học Thủy Lợi**  
-> **Sinh viên thực hiện:** Nguyễn Thuận Hóa &nbsp;•&nbsp; **MSV:** 2351260652  
+> **Sinh viên thực hiện:** Nguyễn Thuận Hòa &nbsp;•&nbsp; **MSV:** 2351260652  
 > **Giảng viên hướng dẫn:** Bộ môn Khoa học Dữ liệu & Trí tuệ Nhân tạo  
 
 ---

@@ -1,14 +1,13 @@
 """
-Exact-Match 48-Page PDF Generator for Lab 4: AI System Testing & Adversarial Security Attacks.
+PDF Generator for Lab 4: AI System Testing & Adversarial Security Attacks.
 Project: Hanoi Multi-Station Weather Forecasting System (DINO-v3 Backbone).
-Student: Nguyễn Thuận Hóa | MSV: 2351260652 | Lớp: 65TTNT | Khoa CNTT - ĐH Thủy Lợi.
+Student: Nguyễn Thuận Hòa | MSV: 2351260652 | Lớp: 65TTNT | Khoa CNTT - ĐH Thủy Lợi.
 
 Formatting & Typography:
 - Font: Times New Roman (Regular, Bold, Italic, BoldItalic) via Windows TrueType fonts.
 - Monospace: Consolas.
-- Page numbering: Bottom center Arabic numerals (Page 1 = Mục lục, Page 2 = Chương 1 ... Page 47 = Kết luận).
+- Page numbering: Bottom center Arabic numerals (Page 1 = Chương 1 ... Page 46 = Kết luận).
 - Cover page: Unnumbered.
-- Exact 48 physical pages matching the reference document structure and page-by-page mapping.
 """
 
 import os
@@ -256,66 +255,11 @@ def generate_pdf():
     # ==========================================================================
     story.append(Spacer(1, 240))
     story.append(Paragraph("BÁO CÁO THỰC HÀNH CHUYÊN ĐỀ – BUỔI 4", styles["CoverTitle"]))
-    story.append(Paragraph("Nguyễn Thuận Hóa | 2351260652", styles["CoverAuthor"]))
+    story.append(Paragraph("Nguyễn Thuận Hòa | 2351260652", styles["CoverAuthor"]))
     story.append(PageBreak())
 
     # ==========================================================================
-    # PAGE 2 (NUMBERED AS "1" - MỤC LỤC)
-    # ==========================================================================
-    story.append(Paragraph("MỤC LỤC", styles["CoverTitle"]))
-    story.append(Spacer(1, 10))
-
-    toc_rows = [
-        ("<b>Chương 1. Giới thiệu và môi trường kiểm thử</b>", "<b>2</b>"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;1.1. Giới thiệu dự án", "2"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;1.2. Mô hình AI", "2"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;1.3. Kiến trúc hệ thống", "2"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;1.4. Môi trường kiểm thử", "2"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;1.5. Công cụ kiểm thử", "3"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;1.6. Phương pháp và tiêu chí đánh giá", "3"),
-        ("<b>Chương 2. Kiểm thử hệ thống AI</b>", "<b>4</b>"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;2.1. TC01 – Kiểm tra trạng thái hoạt động của API", "4"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;2.2. TC02 – Kiểm tra dữ liệu đầu vào của API", "5"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;2.3. TC03 – Kiểm thử luồng phân tích từ đầu đến cuối", "8"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;2.4. TC04 – Kiểm tra định dạng và tính toàn vẹn của kết quả", "11"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;2.5. TC05 – Đánh giá chất lượng dự đoán của mô hình", "12"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;2.6. TC06 – Độ bền của mô hình trước nhiễu ngẫu nhiên", "14"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;2.7. TC07 – Tính nhất quán khi thiếu dữ liệu thời gian", "15"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;2.8. TC08 – Hành vi trên dữ liệu ngoài phân phối huấn luyện", "16"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;2.9. TC09 – Giả lập lỗi dịch vụ dữ liệu khí tượng bên ngoài", "18"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;2.10. TC10 – Giả lập lỗi trong quá trình suy luận", "20"),
-        ("<b>Chương 3. Kiểm thử tấn công hệ thống AI</b>", "<b>22</b>"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;3.1. AT01 – Tấn công bằng dữ liệu sai cấu trúc", "22"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;3.2. AT02 – Tấn công bằng payload kích thước lớn", "25"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;3.3. AT03 – Gửi dồn dập yêu cầu tới API", "27"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;3.4. AT04 – Tấn công đối kháng FGSM và PGD", "29"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;3.5. AT05 – Thao túng chuỗi thời gian", "31"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;3.6. AT06 – Đầu vào ngoài phân phối (dữ liệu tổng hợp)", "32"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;3.7. AT07 – Tấn công bằng giá trị số học bất thường", "34"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;3.8. AT08 – Can thiệp tham số và định danh tài nguyên", "37"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;3.9. AT09 – Tiêu thụ tài nguyên bằng yêu cầu phân tích lớn", "40"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;3.10. AT10 – Giá trị số và kích thước tensor không hợp lệ", "42"),
-        ("<b>Chương 4. Tổng hợp kết quả và kết luận</b>", "<b>45</b>"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;4.1. Bảng tổng hợp", "45"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;4.2. Thống kê", "46"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;4.3. Các lỗi phát hiện", "46"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;4.4. Nhận xét về chất lượng hệ thống", "47"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;4.5. Đề xuất cải thiện", "47"),
-        ("&nbsp;&nbsp;&nbsp;&nbsp;4.6. Kết luận", "47")
-    ]
-    t_toc = Table([[Paragraph(item[0], styles["TableCell"]), Paragraph(item[1], styles["TableCellCenter"])] for item in toc_rows], colWidths=[442, 45])
-    t_toc.setStyle(TableStyle([
-        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 1.2),
-        ('TOPPADDING', (0,0), (-1,-1), 1.2),
-        ('LEFTPADDING', (0,0), (-1,-1), 0),
-        ('RIGHTPADDING', (0,0), (-1,-1), 0),
-    ]))
-    story.append(t_toc)
-    story.append(PageBreak())
-
-    # ==========================================================================
-    # PAGE 3 (NUMBERED AS "2" - CHƯƠNG 1: 1.1, 1.2, 1.3, 1.4)
+    # CHƯƠNG 1 (NUMBERED AS "1": 1.1, 1.2, 1.3, 1.4)
     # ==========================================================================
     story.append(Paragraph("CHƯƠNG 1. GIỚI THIỆU VÀ MÔI TRƯỜNG KIỂM THỬ", styles["ChapterHeading"]))
     story.append(Paragraph("1.1. Giới thiệu dự án", styles["SectionHeading"]))
@@ -1581,7 +1525,7 @@ def generate_pdf():
 
     # Build document with ExactMatchCanvas
     doc.build(story, canvasmaker=ExactMatchCanvas)
-    print(f"\n✅ Successfully generated EXACT-MATCH 48-page PDF: {OUTPUT_PDF}")
+    print(f"\n✅ Successfully generated PDF: {OUTPUT_PDF}")
 
 if __name__ == "__main__":
     generate_pdf()

@@ -1,6 +1,6 @@
 """
 Báo Cáo Bài Thực Hành 2 - Chuyên đề TTNT & KHDL (65TTNT - ĐH Thủy Lợi)
-Sinh viên: Nguyễn Thuận Hóa - MSV: 2351260652
+Sinh viên: Nguyễn Thuận Hòa - MSV: 2351260652
 Đúng 100% 3 yêu cầu trên bảng, tập trung toàn bộ vào các Link nghiệm thu thực tế.
 """
 
@@ -49,7 +49,7 @@ class NumberedCanvas(canvas.Canvas):
         self.setLineWidth(0.75)
         self.line(40, 32, A4[0] - 40, 32)
 
-        footer_left = "Trường ĐH Thủy Lợi • Khoa CNTT • Báo Cáo Thực Hành 2 — Nguyễn Thuận Hóa (2351260652)"
+        footer_left = "Trường ĐH Thủy Lợi • Khoa CNTT • Báo Cáo Thực Hành 2 — Nguyễn Thuận Hòa (2351260652)"
         footer_right = f"Trang {self._pageNumber} / {total_pages}"
         self.drawString(40, 20, footer_left)
         self.drawRightString(A4[0] - 40, 20, footer_right)
@@ -149,7 +149,7 @@ def generate_pdf():
     # Student Info Table
     info_data = [
         [
-            Paragraph("<b>Họ và tên:</b> Nguyễn Thuận Hóa", student_style),
+            Paragraph("<b>Họ và tên:</b> Nguyễn Thuận Hòa", student_style),
             Paragraph("<b>Mã số sinh viên:</b> 2351260652", student_style),
             Paragraph("<b>Lớp:</b> 65TTNT", student_style)
         ]

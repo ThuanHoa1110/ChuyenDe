@@ -1,7 +1,7 @@
 """
 Standalone Executable Script for TC05 – Model accuracy benchmark
 Hanoi Multi-Station Weather Forecasting System (Buổi 4: Kiểm thử và Tấn công Hệ thống AI).
-Student: Nguyễn Thuận Hóa | MSV: 2351260652 | Lớp: 65TTNT | ĐH Thủy Lợi
+Student: Nguyễn Thuận Hòa | MSV: 2351260652 | Lớp: 65TTNT | ĐH Thủy Lợi
 """
 
 import sys

@@ -1,7 +1,7 @@
 """
 PDF Generator for Báo Cáo Bài Thực Hành 3.
 Môn: Chuyên đề Trí tuệ Nhân tạo và Khoa học Dữ liệu (Lớp 65TTNT - ĐH Thủy Lợi)
-Sinh viên: Nguyễn Thuận Hóa - MSV: 2351260652
+Sinh viên: Nguyễn Thuận Hòa - MSV: 2351260652
 
 Yêu cầu đúng nguyên văn trên bảng của Thầy:
 1. Triển khai CI/CD cho bài toán AI.
@@ -166,7 +166,7 @@ def generate_pdf():
     # Student Info Table
     info_data = [
         [
-            Paragraph("<b>Họ và tên sinh viên:</b> Nguyễn Thuận Hóa", student_style),
+            Paragraph("<b>Họ và tên sinh viên:</b> Nguyễn Thuận Hòa", student_style),
             Paragraph("<b>Mã số sinh viên:</b> 2351260652", student_style)
         ],
         [
